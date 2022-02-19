@@ -4,9 +4,9 @@ const app = express();
 const usersRoute = require("../routes/usersRoutes");
 
 app.get("/", (req, res) => {
-  res.send("Hello Friend!");
+  res.json({text: "Hello Friend!"});
 });
 
-app.use('/users', usersRoute);
+app.use('/api/users', usersRoute);
 
 module.exports = app;
