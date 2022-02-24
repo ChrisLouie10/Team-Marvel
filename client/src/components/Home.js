@@ -1,15 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+const { useEffect, useState } = require('react');
 
-function App() {
+const Home = () => {
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then((response) => response)
+      .then((responseData) => responseData.json())
+      .then(json => setData(json["text"]))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <p>please o god work</p>
+        <p>is this working: {data}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -23,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

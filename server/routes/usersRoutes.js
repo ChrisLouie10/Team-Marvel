@@ -4,12 +4,12 @@ const { createUser } = require('../db/dao/userDao');
 
 
 router.get('/', (req, res) => {
-  res.send("getting users");
+  res.status(200).json({text: "getting users"});
 });
 
-router.get('/create', async (req, res) => {
+router.get('/create',  async (req, res) => {
   const user = await createUser(req.query.name, req.query.email);
-  res.send(user);
+  res.status(200).send(user);
 });
 
 module.exports = router;
