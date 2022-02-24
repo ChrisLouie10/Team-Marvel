@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 
 const usersRoute = require("../routes/usersRoutes");
 
-app.get("/", (req, res) => {
-  res.json({text: "Hello Friend!"});
-});
+app.use(cors());
 
 app.use('/api/users', usersRoute);
 

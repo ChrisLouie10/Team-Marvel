@@ -1,15 +1,13 @@
 const { useEffect, useState } = require('react');
 
-const App = () => {
-  const [data, setData] = useState({});
+const Home = () => {
+  const [data, setData] = useState("");
 
   useEffect(() => {
     fetch('/api/users')
       .then((response) => response)
-      .then((responseData) => {
-        console.log(responseData);
-        setData(responseData);
-      })
+      .then((responseData) => responseData.json())
+      .then(json => setData(json["text"]))
       .catch((err) => console.log(err));
   }, []);
 
@@ -20,7 +18,7 @@ const App = () => {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <p>please o god work</p>
-        <p>is this working</p>
+        <p>is this working: {data}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -34,4 +32,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default Home;
