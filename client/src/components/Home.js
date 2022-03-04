@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
+import { getUsers } from "../api/provider";
 
 const Home = () => {
   const [data, setData] = useState("");
 
+  const fetchData = () => {
+    getUsers()
+      .then(response => response.text)
+      .then(text => setData(text))
+  }
+
   useEffect(() => {
-    fetch('/api/users')
-      .then((response) => response)
-      .then((responseData) => responseData.json())
-      .then(json => setData(json["text"]))
-      .catch((err) => console.log(err));
+    fetchData();
   }, []);
 
   return (
     <div className="App">
       <h3>Welcome to the Home Page!</h3>
-      <p>Check console to see if you fetched user data</p>
+      <p>Fetched Data:</p>
+      <p>{data}</p>
     </div>
   );
 }
