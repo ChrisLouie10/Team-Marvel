@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +11,8 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { registerUser } from "../api/provider";
 
 function Copyright(props) {
   return (
@@ -29,12 +32,14 @@ const theme = createTheme();
 const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
+    const data = new FormData(event.target);
+    const newUser = {
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      name: data.get('name'),
+      password: data.get('password')
+    }
+    registerUser(newUser)
+      .then(response => console.log(response.message))
   };
 
   return (
@@ -60,10 +65,10 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
               autoFocus
             />
             <TextField

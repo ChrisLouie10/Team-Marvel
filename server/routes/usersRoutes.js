@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     const user = await createUser(data.name, data.email, data.password);
 
     // set status code and return the requested data
-    return res.status(200).send(userToId(user));
+    return res.status(200).send({message: 'Successfully created new user: ' + userToId(user).id});
   } catch {
     return res.status(500).send({message: 'Failed to create user'});
   }

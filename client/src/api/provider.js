@@ -9,6 +9,13 @@ export const getUsers = () => {
     .catch(err => console.log(err));
 }
 
+export const registerUser = (data) => {
+  return axios
+    .post(`${BASE_URL}/`, data)
+    .then(response => response.data)
+    .catch(err => err.response.data);
+}
+
 // const getUser = (id) => {
 //   return axios
 //     .get(`${BASE_URL}/${id}`)
