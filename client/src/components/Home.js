@@ -1,4 +1,4 @@
-const { useEffect, useState } = require('react');
+import { useEffect, useState } from 'react';
 
 const Home = () => {
   const [data, setData] = useState("");
@@ -13,21 +13,8 @@ const Home = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>please o god work</p>
-        <p>is this working: {data}</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>Welcome to the Home Page!</h3>
+      <p>Check console to see if you fetched user data</p>
     </div>
   );
 }
