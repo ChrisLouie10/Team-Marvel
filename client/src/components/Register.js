@@ -93,10 +93,10 @@ const Register = () => {
             >
               Sign Up
             </Button>
-            <Grid container>
-              <Grid item xs>
+            <Grid container justifyContent="center">
+              <Grid item>
                 <Link href="/login" variant="body2">
-                  {"Login"}
+                  Login
                 </Link>
               </Grid>
             </Grid>

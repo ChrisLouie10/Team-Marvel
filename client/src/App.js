@@ -11,7 +11,6 @@ import Register from './components/Register';
 const App = () => {
     return (
       <div>
-        <Navbar/>
         <Router>
           <Routes>
             <Route path="/" element={<Home/>} />
