@@ -7,7 +7,7 @@ const About = () => {
     <div className="App">
       <Navbar/>
       <h3>Welcome to the About Page! :)</h3>
-      <Link href="">Back to home</Link>
+      <Link href="/">Back to home</Link>
     </div>
   )
 }
