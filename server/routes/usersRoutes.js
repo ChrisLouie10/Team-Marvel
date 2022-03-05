@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
   // Validate request body for required data (if needed)
   const { value: data, error } = registerValidation.validate(req.body);
-  if(error) return res.status(400).json({message: error.details[0].message});
+  if(error) return res.status(400).json(error);
 
   // Check for any other conditions that shouldn't be allowed
   if(await findUserByEmail(data.email)) return res.status(400).json({message: 'Email already in use'}); 
