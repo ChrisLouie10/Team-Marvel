@@ -1,19 +1,17 @@
 import axios from 'axios';
 
-const BASE_URL = '/api/users'
+// const BASE_URL = '/api/users'
 
 export const getUsers = () => {
   return axios
-    .get(`${BASE_URL}/`)
-    .then(response => response)
-    .catch(err => console.log(err));
+    .get(`/api/users`)
+    .then(response => response);
 }
 
 export const registerUser = (data) => {
   return axios
-    .post(`${BASE_URL}/`, data)
-    .then(response => response.data)
-    .catch(err => err.response.data);
+    .post(`/api/users`, data)
+    .then(response => response);
 }
 
 // const getUser = (id) => {
