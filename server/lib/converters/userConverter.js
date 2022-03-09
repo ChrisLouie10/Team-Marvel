@@ -6,8 +6,7 @@ function userToId(user) {
 
 function userToObject(user) {
   let obj = {}
-  obj.name = user.name;
-  obj.email = user.email;
+  obj.username = user.username;
   return obj;
 }
 
