@@ -1,13 +1,13 @@
 const mongoose= require('mongoose')
 const User = require('../models/usersModel');
 
-function createUser(name, email, password) {
-  const user = new User({name, email, password});
+function createUser(username, password) {
+  const user = new User({username, password});
   return user.save();
 }
 
-function findUserByEmail(email) {
-  return User.findOne({email});
+function findUserByUsername(username) {
+  return User.findOne({username});
 }
 
 function findUserById(id) {
@@ -17,6 +17,6 @@ function findUserById(id) {
 
 module.exports = {
   createUser,
-  findUserByEmail,
+  findUserByUsername,
   findUserById
 };
