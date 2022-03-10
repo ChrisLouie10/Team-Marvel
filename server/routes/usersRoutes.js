@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
   if(error) return res.status(400).json({message: error.details[0].message});
 
   // Check for any other conditions that shouldn't be allowed
-  if(await findUserByUsername(data.username)) return res.status(400).json({message: 'Email already in use'}); 
+  if(await findUserByUsername(data.username)) return res.status(400).json({message: 'Username already in use'}); 
 
   try {
 
