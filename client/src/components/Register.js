@@ -3,34 +3,15 @@ import { useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { registerUser } from "../api/provider";
 import { registerValidation } from "../validation/registerValidation";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/about">
-        Team Marvel
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
 
 const Register = () => {
   const [errors, setErrors] = useState({});
@@ -53,11 +34,11 @@ const Register = () => {
 
     const data = new FormData(event.target);
     const newUser = {
-      email: data.get('email'),
-      name: data.get('name'),
+      username: data.get('username'),
       password: data.get('password')
     }
 
+    console.log(newUser);
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(newUser);
     setErrors(errors || {})
@@ -84,32 +65,21 @@ const Register = () => {
         <Avatar sx={{ m: 1, bgcolor: 'green' }}>
           <MusicNoteIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography variant="h5">
           Sign Up
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            error={errors.name ? true : false}
-            helperText={errors.name ? errors.name : ""}
+            error={errors.username ? true : false}
+            helperText={errors.username ? errors.username : ""}
             margin="normal"
             required
             fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="name"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
-          />
-          <TextField
-            error={errors.email ? true : false}
-            helperText={errors.email ? errors.email : ""}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
           />
           <TextField
             error={errors.password ? true : false}
@@ -127,7 +97,7 @@ const Register = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 3 }}
           >
             Sign Up
           </Button>
