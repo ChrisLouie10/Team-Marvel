@@ -38,7 +38,6 @@ const Register = () => {
       password: data.get('password')
     }
 
-    console.log(newUser);
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(newUser);
     setErrors(errors || {})
