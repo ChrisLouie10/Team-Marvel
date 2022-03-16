@@ -1,0 +1,94 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 100vh;
+  margin: 0;
+  font-size: clamp(.5rem, 2.5vmin, 1.5rem);
+  background-color: hsl(240, 10%, 100%);
+}
+
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(auto, 40%));
+  grid-auto-rows: 10em;
+  gap: 2em;
+  justify-content: center;
+  margin-bottom: 1.5em;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: inherit;
+  grid-column: span 1;
+  border: none;
+  border-radius: .25em;
+  background-color: hsl(
+    var(--hue, 240), 
+    var(--saturation, 0%), 
+    calc(var(--lightness-offset, 0%) + var(--lightness, 75%))
+  );
+  color: white;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.btn:hover {
+  --lightness-offset: 10%;
+}
+
+.btn.correct {
+  --hue: 173;
+  --saturation: 44%;
+  --lightness: 56%;
+  --lightness-offset: 0%;
+}
+
+.btn.incorrect {
+  --hue: 18;
+  --saturation: 100%;
+  --lightness: 75%;
+  --lightness-offset: 0%;
+}
+
+.btn.fade {
+  --lightness: 90%;
+  --lightness-offset: 0%;
+}
+
+.songplayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin-bottom: 1.5em;
+  background-color: hsl(173, 44%, 56%);
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  z-index: 1;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
