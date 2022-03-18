@@ -36,7 +36,7 @@ const HostDashboard = () => {
                 width: '100%',
                 marginLeft: '70px', marginRight: '50px',
                 }}>
-                <Masonry gutter='50'>
+                <Masonry>
                     {playlists.map((playlist) =>
                         <PlaylistCard name={playlist.name ? playlist.name : ''}/>
                         )}
