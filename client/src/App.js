@@ -6,6 +6,7 @@ import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Register from './components/Register';
 import GameMain from './components/GameMain';
+import HostDashboard from './components/HostDashboard'
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/register" element={<Register/>} />
             <Route path="*" element={<NotFound/>} />
             <Route path="/game" element={<GameMain/>} />
+            <Route path="/user/host" element={<HostDashboard/>} />
           </Routes>
         </Router>
       </div>

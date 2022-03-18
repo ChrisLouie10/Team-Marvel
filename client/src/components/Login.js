@@ -10,10 +10,13 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 const SignIn = () => {
+  let navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -22,6 +25,9 @@ const SignIn = () => {
       password: data.get('password'),
     };
     console.log(credentials);
+
+    // display dashboard page
+    navigate("/user/host", { replace: true })
   };
 
   return (
