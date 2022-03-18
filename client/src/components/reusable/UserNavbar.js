@@ -23,7 +23,7 @@ const UserNavbar = () => {
         sx={{display: 'flex', color: 'teal'}}
         >
         <Toolbar style={{display:'flex', justifyContent:"space-between", width:'100%'}}>
-            {/* right aligned elements */}
+            {/* left aligned elements */}
             <Box display='flex' flexGrow={1}>
                 <Typography variant="h4" noWrap sx={{mr: 2}}>
                   Hearo
@@ -33,7 +33,7 @@ const UserNavbar = () => {
                 <Button sx={{color: 'teal'}} onClick={() => console.log("clicked Game history")}>Game history</Button>
             </Box>
 
-            {/* left aligned */}
+            {/* right aligned */}
             <Button sx={{color: 'teal'}}
                 onClick={() =>
                     navigate("/", { replace: true }) // returns to login page

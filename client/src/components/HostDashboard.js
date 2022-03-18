@@ -14,9 +14,9 @@ const HostDashboard = () => {
 
   function createPlaylist(newPlaylist) {
       // add to displayed list of playlists
-      var newPlaylists = [...playlists] // copy
-      newPlaylists.push(newPlaylist);
-      setPlaylists(newPlaylists);
+      var playlistsCopy = [...playlists]
+      playlistsCopy.push(newPlaylist);
+      setPlaylists(playlistsCopy);
   }
 
   return (
