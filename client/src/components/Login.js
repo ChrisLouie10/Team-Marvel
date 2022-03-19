@@ -15,6 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { loginValidation } from '../validation/loginValidation';
+import { loginAuth } from '../api/provider';
 
 const theme = createTheme();
 
@@ -47,6 +48,13 @@ const SignIn = () => {
     const errors = validate(credentials);
     setErrors(errors || {})
     if (errors) return;
+
+    // Send a request to the server and check for errors
+    loginAuth(credentials)
+      .then(response => console.log(response))
+      .catch(err => {
+        setErrors(err.response.data);
+      });
   };
 
   return (
