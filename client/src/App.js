@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import GameMain from './components/GameMain';
 import HostDashboard from './components/HostDashboard'
+import UserJoin from './components/UserJoin'
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
             <Route path="*" element={<NotFound/>} />
             <Route path="/game" element={<GameMain/>} />
             <Route path="/user/host" element={<HostDashboard/>} />
+            <Route path="/user/join" element={<UserJoin/>} />
           </Routes>
         </Router>
       </div>

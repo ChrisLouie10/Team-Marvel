@@ -27,7 +27,7 @@ const SignIn = () => {
     console.log(credentials);
 
     // display dashboard page
-    navigate("/user/host", { replace: true })
+    navigate("/user/join", { replace: true })
   };
 
   return (

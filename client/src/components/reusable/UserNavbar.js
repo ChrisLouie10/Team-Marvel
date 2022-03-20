@@ -28,8 +28,8 @@ const UserNavbar = () => {
                 <Typography variant="h4" noWrap sx={{mr: 2}}>
                   Hearo
                 </Typography>
-                <Button sx={{color: 'teal'}} onClick={() => console.log("clicked join")}>Join</Button>
-                <Button sx={{color: 'teal'}} onClick={() => console.log("clicked host")}>Host</Button>
+                <Button sx={{color: 'teal'}} onClick={() => navigate("/user/join", { replace: true })}>Join</Button>
+                <Button sx={{color: 'teal'}} onClick={() => navigate("/user/host", { replace: true })}>Host</Button>
                 <Button sx={{color: 'teal'}} onClick={() => console.log("clicked Game history")}>Game history</Button>
             </Box>
 
