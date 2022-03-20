@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 const UserJoin = () => {
   return (
     <>
-      <UserNavbar />
+      <UserNavbar tab='join'/>
 
       <div style={{
         /* center horizontally */

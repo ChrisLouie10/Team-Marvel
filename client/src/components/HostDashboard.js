@@ -21,7 +21,7 @@ const HostDashboard = () => {
 
   return (
     <div>
-        <UserNavbar />
+        <UserNavbar tab='host'/>
 
         <div style={{
           /* used for centered layout */

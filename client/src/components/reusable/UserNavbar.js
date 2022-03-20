@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
 
 // top menu bar that has links and buttons to pages a logged in user can access
-const UserNavbar = () => {
+const UserNavbar = (props) => {
   let navigate = useNavigate(); // used for navigating to different Routes
 
   return (
@@ -28,8 +28,10 @@ const UserNavbar = () => {
                 <Typography variant="h4" noWrap sx={{mr: 2}}>
                   Hearo
                 </Typography>
-                <Button sx={{color: 'teal'}} onClick={() => navigate("/user/join", { replace: true })}>Join</Button>
-                <Button sx={{color: 'teal'}} onClick={() => navigate("/user/host", { replace: true })}>Host</Button>
+                <Button sx={{color: 'teal'}} disabled={props.tab === 'join' ? true : false}
+                    onClick={() => navigate("/user/join", { replace: true })}>Join</Button>
+                <Button sx={{color: 'teal'}} disabled={props.tab === 'host' ? true : false}
+                    onClick={() => navigate("/user/host", { replace: true })}>Host</Button>
                 <Button sx={{color: 'teal'}} onClick={() => console.log("clicked Game history")}>Game history</Button>
             </Box>
 
