@@ -13,6 +13,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 import { loginValidation } from '../validation/loginValidation';
 import { loginAuth } from '../api/provider';
@@ -20,8 +21,10 @@ import { loginAuth } from '../api/provider';
 const theme = createTheme();
 
 const SignIn = () => {
+  let navigate = useNavigate();
+
   const [errors, setErrors] = useState({});
-  
+
   const validate = (credentials) => {
     const { error } = loginValidation.validate(credentials, {abortEarly: false});
     if (!error) return null;
@@ -44,6 +47,8 @@ const SignIn = () => {
     };
     console.log(credentials);
 
+
+
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(credentials);
     setErrors(errors || {})
@@ -51,7 +56,11 @@ const SignIn = () => {
 
     // Send a request to the server and check for errors
     loginAuth(credentials)
-      .then(response => console.log(response))
+      .then(response => {
+          console.log(response);
+          // display dashboard page
+          navigate("/user/join", { replace: true })
+      })
       .catch(err => {
         setErrors(err.response.data);
       });
