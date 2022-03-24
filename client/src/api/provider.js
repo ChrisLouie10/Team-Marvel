@@ -14,6 +14,12 @@ export const registerUser = (data) => {
     .then(response => response);
 }
 
+export const loginAuth = (data) => {
+  return axios
+    .post(`/api/users/login`, data)
+    .then(response => response);
+}
+
 // const getUser = (id) => {
 //   return axios
 //     .get(`${BASE_URL}/${id}`)
