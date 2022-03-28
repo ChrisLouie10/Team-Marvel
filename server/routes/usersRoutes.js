@@ -11,8 +11,8 @@ router.get('/', authenticate, (req, res) => {
   res.status(200).json({user: userToObject(req.user)});
 });
 
-router.get('/:id', authenticate, async (req, res) => {
-  const user = await findUserById(req.params.id);
+router.get('/:username', authenticate, async (req, res) => {
+  const user = await findUserByUsername(req.params.username);
   if(!user) return res.status(404).json({message: 'User not found'});
   return res.status(200).json(userToObject(user));
 })

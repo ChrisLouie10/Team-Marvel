@@ -1,28 +1,24 @@
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
 
 import { loginValidation } from '../validation/loginValidation';
-import { loginAuth } from '../api/provider';
-
-const theme = createTheme();
+import { loginAuth, getUserByUsername } from '../api/provider';
+import useAuth from '../hooks/useAuth';
 
 const SignIn = () => {
-  let navigate = useNavigate();
+  const { setAuth, setData } = useAuth();
 
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const validate = (credentials) => {
@@ -45,24 +41,29 @@ const SignIn = () => {
       username: data.get('username'),
       password: data.get('password'),
     };
-    console.log(credentials);
-
-
 
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(credentials);
     setErrors(errors || {})
     if (errors) return;
 
-    // Send a request to the server and check for errors
+    // GET credentials from server
     loginAuth(credentials)
-      .then(response => {
+      .then( async (response) => {
           console.log(response);
+
+          // find user data
+          const user = await getUserByUsername(credentials.username)
+
+          // set user and auth context (to use across components)
+          setData(user.data);
+          setAuth(true);
+
           // display dashboard page
-          navigate("/user/join", { replace: true })
+          navigate("/user/host", { replace: true });
       })
       .catch(err => {
-        setErrors(err.response.data);
+        setErrors(err.response.data)
       });
   };
 

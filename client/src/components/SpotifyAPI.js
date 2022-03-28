@@ -32,19 +32,19 @@ const SpotifyAPI = () => {
     // })
 
     // Get playlist
-    // spotifyApi.getPlaylist('37i9dQZF1DZ06evO1ahqM0')
-    // .then((data) => {
-    //   console.log('Some information about this playlist', data.body);
-    // })
-    // .catch(err => console.log(err));
+    spotifyApi.getPlaylist('37i9dQZF1DZ06evO1ahqM0')
+    .then((data) => {
+      console.log('Some information about this playlist', data.body);
+    })
+    .catch(err => console.log(err));
 
     // Plays preview of Love On Top - Beyonce
-    var sound = new Howl({
-      src: ['https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547'],
-      html5: true
-    });
+    // var sound = new Howl({
+    //   src: ['https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547'],
+    //   html5: true
+    // });
     
-    sound.play();
+    // sound.play();
   }
    
   return (
