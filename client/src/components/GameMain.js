@@ -2,9 +2,7 @@ import React from 'react'
 import './GameMain.css'
 import { useState, useEffect } from 'react'
 import { Howl } from 'howler'
-import io from 'socket.io-client'
-
-const socket = io();
+import socket from './Socket'
 
 // TODO: Load answers
 
