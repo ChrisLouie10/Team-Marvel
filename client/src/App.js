@@ -9,6 +9,8 @@ import GameMain from './components/GameMain';
 import HostDashboard from './components/HostDashboard'
 import UserJoin from './components/UserJoin'
 
+import SpotifyAPI from './components/SpotifyAPI';
+
 const App = () => {
     return (
       <div>
@@ -19,6 +21,7 @@ const App = () => {
             <Route path="/register" element={<Register/>} />
             <Route path="*" element={<NotFound/>} />
             <Route path="/game" element={<GameMain/>} />
+            <Route path="/authenticate" element={<SpotifyAPI/>} />
             <Route path="/user/host" element={<HostDashboard/>} />
             <Route path="/user/join" element={<UserJoin/>} />
           </Routes>
