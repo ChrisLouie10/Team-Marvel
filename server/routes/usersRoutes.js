@@ -3,7 +3,8 @@ const bcrypt =  require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { createUser, findUserByUsername, findUserById } = require('../db/dao/userDao');
 const { accountValidation } = require('../lib/validation/userValidation');
-const { userToId, userToObject } = require('../lib/converters/userConverter');
+const { userToObject } = require('../lib/converters/userConverter');
+const modelToId = require('../lib/converters/modelToId');
 const authenticate = require('../lib/passport/authenticate');
 
 
@@ -55,7 +56,7 @@ router.post('/', async (req, res) => {
     const user = await createUser(data.username, data.password);
 
     // set status code and return the requested data
-    return res.status(201).send(userToId(user));
+    return res.status(201).send(modelToId(user));
   } catch {
     return res.status(500).send({message: 'Failed to create user'});
   }
