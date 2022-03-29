@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const authenticate = require('../lib/passport/authenticate');
 var SpotifyWebApi = require('spotify-web-api-node');
 
+const clientSecret = process.env.CLIENT_SECRET || '';
+
 router.post('/authenticate', async (req, res) => {
   // Create api objects with credentials
   var spotifyApi = new SpotifyWebApi({
     clientId: 'a98c89e338374cecbfd3b95f1c127547',
-    clientSecret: '1774058f39e94591a08836c943446fdc',
+    clientSecret: clientSecret,
   });
 
   spotifyApi
