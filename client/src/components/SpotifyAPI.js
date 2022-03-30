@@ -22,6 +22,7 @@ const SpotifyAPI = () => {
   /*
   calls Spotify's endpoint that searches for playlists based on input query
   processes search results into an array of playlist objects
+  results are filtered to only have songs and playlists with non null mp3s
   */
   function searchPlaylists() {
     var processedPlaylists = []
@@ -48,7 +49,10 @@ const SpotifyAPI = () => {
       // take out playlist object from Promise object
       .then(playlistsWSongs =>
         playlistsWSongs.forEach(promise =>
-          promise.then(playlist => processedPlaylists.push(playlist))
+          promise.then(playlist => {
+            if (playlist.songs.length > 0)
+              processedPlaylists.push(playlist)
+          })
       ))
       .then(() => console.log(playlistQuery, processedPlaylists))
       .catch(err => console.log(err))
@@ -65,7 +69,7 @@ const SpotifyAPI = () => {
           mp3: song.track.preview_url
       }))
     })
-    .then(allSongs => songs = allSongs)
+    .then(allSongs => songs = allSongs.filter(songData => songData.mp3 !== null))
     // .then(console.log)
     .catch(err => console.log(err));
     return songs
