@@ -133,8 +133,14 @@ const SpotifyAPI = () => {
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <button onClick={handleChange}>Click here for MUSIC</button>
-      <button onClick={handleSubmitPlaylist}>Click to submit Music</button>
-      <button onClick={handleSubmitShowPlaylist}>Click to submit print playlist</button>
+      
+      <br />
+      <div>
+        <button onClick={handleSubmitPlaylist}>Click to submit Music</button>
+      </div>
+      <div>
+        <button onClick={handleSubmitShowPlaylist}>Click to submit print playlist</button>
+      </div>
 
       <br></br>
       <div>
