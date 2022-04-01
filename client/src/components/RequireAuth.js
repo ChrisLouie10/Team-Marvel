@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from '../hooks/useAuth';
 
-const ProtectedRoutes = () => {
+const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   
-  return auth ? <Outlet /> : <Navigate to="/" />;
+  return auth?.find(role => allowedRoles?.includes(role)) 
+            ? <Outlet />
+            : <Navigate to="/" />;
 };
 
-export default ProtectedRoutes;
+export default RequireAuth;

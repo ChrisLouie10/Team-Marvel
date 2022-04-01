@@ -22,12 +22,16 @@ const App = () => {
           <Route path="/" element={<Authentication/>} />
           <Route path="/spotify" element={<SpotifyAPI/>} />
 
-          {/* We want to protect these routes */}
-          <Route element={<RequireAuth/>}>
-            <Route path="/lobby" element={<Lobby/>} />
-            <Route path="/game" element={<GameMain/>} />
+          {/* Only authorized users can access */}
+          <Route element={<RequireAuth allowedRoles={['auth']}/>}>
             <Route path="/user/host" element={<HostDashboard/>}/>
             <Route path="/user/join" element={<UserJoin/>} />
+          </Route>
+
+          {/* Guests and Authorized users can access */}
+          <Route element={<RequireAuth allowedRoles={['auth', 'guest']}/>}>
+            <Route path="/lobby" element={<Lobby/>} />
+            <Route path="/game" element={<GameMain/>} />
           </Route>
 
           {/* Catch all pages */}
