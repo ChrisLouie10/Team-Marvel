@@ -2,7 +2,7 @@ import React from 'react'
 import './GameMain.css'
 import { useState, useEffect } from 'react'
 import { Howl } from 'howler'
-import socket from './Socket'
+import socket from '../../components/Socket'
 
 // TODO: Load answers
 

@@ -24,13 +24,14 @@ io.on('connection', (socket) => {
     if (!game) {
       console.log("was not in a game")
       return
-    } else console.log("removed from live game")
+    } else console.log("player removed from live game")
 
     // set game pin for clarity
     const gamePin = game.gamePin
 
     // if the host disconnected, end the game
     if (game.hostSocketId === socket.id) {
+      console.log("game removed from live games")
       io.to(gamePin).emit('endGame', {message: "host has disconnected"})
       games.removeGame(socket.id)
       return
@@ -43,9 +44,7 @@ io.on('connection', (socket) => {
   socket.on('createGame', (data) => {
 
     // create game PIN
-    // const gamePin = nanoid();
-    // manually create game PIN for testing purposes ( this same pin is on client side )
-    const gamePin = "kLJDAmIEBM"
+    const gamePin = nanoid();
 
     // set id to socket id
     const hostId = data.hostId
@@ -58,6 +57,7 @@ io.on('connection', (socket) => {
       // socket.emit('gameNotFound')
       return
     } else console.log("Game created")
+    console.log(game)
 
     // connect socket to room
     socket.join(gamePin);
@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
     const game = games.addPlayer(gamePin, {playerSocketId: socket.id, playerId: data.playerId, playerName: data.playerName})
     if (!game) {
       console.log("Game not found")
-      // socket.emit('gameNotFound')
+      socket.emit('gameNotFound')
       return
     } else console.log("Game found")
 
