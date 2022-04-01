@@ -1,9 +1,3 @@
-function userToId(user) {
-  let obj = {}
-  obj.id = user._id;
-  return obj
-}
-
 function userToObject(user) {
   let obj = {}
   obj.username = user.username;
@@ -12,6 +6,5 @@ function userToObject(user) {
 }
 
 module.exports = {
-  userToId,
   userToObject
 }

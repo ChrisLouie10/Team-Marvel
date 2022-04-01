@@ -7,6 +7,7 @@ const passportConfig = require('../lib/passport/config');
 const cookieParser = require('cookie-parser')
 const usersRoute = require("../routes/usersRoutes");
 const spotifyRoute = require("../routes/spotifyRoutes");
+const playlistRoute = require("../routes/playlistRoutes");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,5 +19,6 @@ passportConfig(passport);
 
 app.use('/api/users', usersRoute);
 app.use('/api/spotify', spotifyRoute);
+app.use('/api/playlists', playlistRoute);
 
 module.exports = app;
