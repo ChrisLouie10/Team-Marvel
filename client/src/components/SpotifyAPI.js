@@ -22,15 +22,15 @@ const SpotifyAPI = () => {
 
   const handleSubmitPlaylist= async (e) => {
     const playlist = {
-      playlistName: "Beyonce",
+      playlistName: "Usher",
       songs: [
         {
-          songName: "Love on Top",
-          songUrl: "https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547"
+          songName: "Yeah! (feat. Lil Jon & Ludacris)",
+          songUrl: "https://p.scdn.co/mp3-preview/775632d9867341c779b7238f1718f9abd1773061?cid=a98c89e338374cecbfd3b95f1c127547"
         }, 
         {
-          songName: "Love on Top again but this is here as an example",
-          songUrl: "https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547"
+          songName: "DJ Got Us Fallin' In Love (feat. Pitbull)",
+          songUrl: "https://p.scdn.co/mp3-preview/59848c60516323a7d87eaf5b26d6d5188343377c?cid=a98c89e338374cecbfd3b95f1c127547"
         }
       ]
     };

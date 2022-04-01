@@ -6,6 +6,10 @@ function createPlaylist(playlist) {
   return newPlaylist.save();
 }
 
+function findPlaylists() {
+  return Playlist.find();
+}
+
 function findPlaylistById(id) {
   if(!mongoose.isValidObjectId(id)) return null;
   return Playlist.findOne({_id: id});
@@ -13,5 +17,6 @@ function findPlaylistById(id) {
 
 module.exports = {
   createPlaylist,
+  findPlaylists,
   findPlaylistById
 };
