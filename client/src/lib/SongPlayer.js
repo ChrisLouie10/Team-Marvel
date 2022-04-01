@@ -6,8 +6,12 @@ const SongPlayer = (props) => {
   const soundplayerContainer = useRef(null); // soundwave component needs to access a DOM element
   const [soundwave, setSoundwave] = useState(null) // soundwave component from library
 
+  const [timeLeft, setTimeLeft] = useState(null)
+
   // create soundwave
   useEffect(() => {
+    setTimeLeft(30)
+
     // prevent duplicate soundwaves that may be created due to using refs
     if (soundwave) soundwave.dispose()
 
@@ -29,8 +33,19 @@ const SongPlayer = (props) => {
     )
   }, [props.mp3])
 
+  // manage timer
+  useEffect(() => {
+    if (timeLeft > 0) {
+      setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    }
+    else if (timeLeft === 0) {
+      soundwave.stop()
+    }
+  }, [timeLeft])
+
   return (
     <div style={{width: '80%', height: '100%'}} ref={soundplayerContainer}>
+      <p>{timeLeft}</p>
     </div>
   );
 }
