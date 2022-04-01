@@ -10,8 +10,8 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import { registerUser } from "../api/provider";
-import { registerValidation } from "../validation/registerValidation";
+import { registerUser } from "../../api/provider";
+import { registerValidation } from "../../validation/registerValidation";
 
 const Register = () => {
   const [errors, setErrors] = useState({});

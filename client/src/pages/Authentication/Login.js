@@ -11,9 +11,9 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import { loginValidation } from '../validation/loginValidation';
-import { loginAuth, getUserByUsername } from '../api/provider';
-import useAuth from '../hooks/useAuth';
+import { loginValidation } from '../../validation/loginValidation';
+import { loginAuth, getUserByUsername } from '../../api/provider';
+import useAuth from '../../hooks/useAuth';
 
 const SignIn = () => {
   const { setAuth, setData } = useAuth();

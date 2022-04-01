@@ -2,15 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { useState } from 'react';
 
-import Authentication from './components/Authentication';
-import NotFound from './components/NotFound';
-import GameMain from './components/GameMain';
-import HostDashboard from './components/HostDashboard'
-import UserJoin from './components/UserJoin'
-import Lobby from './components/Lobby';
+import Authentication from './pages/Authentication/Authentication';
+import GameMain from './pages/Game/GameMain';
+import Lobby from './pages/Game/Lobby';
+import HostDashboard from './pages/Home/HostDashboard'
+import UserJoin from './pages/Home/UserJoin'
 import SpotifyAPI from './components/SpotifyAPI';
 import RequireAuth from './components/RequireAuth';
 import Layout from './components/Layout';
+import NotFound from './pages/NotFound';
 
 const App = () => {
     const [userContext, setUserContext] = useState()
