@@ -1,6 +1,4 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const authenticate = require('../lib/passport/authenticate');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 const clientSecret = process.env.CLIENT_SECRET || '';
@@ -22,7 +20,7 @@ router.post('/authenticate', async (req, res) => {
         expiresIn: data.body.expires_in,
       });
     })
-    .catch(err => {
+    .catch(() => {
       return res.status(500).send({message: 'Failed to create access token'});
     });
 })

@@ -3,6 +3,7 @@ import useAuth from './useAuth.js'
 import { useState, useEffect } from 'react'
 import SpotifyWebApi from 'spotify-web-api-node';
 import { Howl } from 'howler';
+import axios from 'axios';
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'a98c89e338374cecbfd3b95f1c127547'
@@ -19,6 +20,36 @@ const SpotifyAPI = () => {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
+  const handleSubmitPlaylist= async (e) => {
+    const playlist = {
+      playlistName: "Beyonce",
+      songs: [
+        {
+          songName: "Love on Top",
+          songUrl: "https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547"
+        }, 
+        {
+          songName: "Love on Top again but this is here as an example",
+          songUrl: "https://p.scdn.co/mp3-preview/fa3f9a99a6fba8250b0f85669743fba3bf695c22?cid=a98c89e338374cecbfd3b95f1c127547"
+        }
+      ]
+    };
+    const playlistId = await axios
+      .post(`/api/playlists`, playlist)
+      .then(response => response.data)
+      .catch(error => error);
+    console.log(playlistId);
+    e.preventDefault();
+  }
+  
+  const handleSubmitShowPlaylist = async (e) => {
+    const playlist = await axios
+      .get(`/api/playlists/6242d6aab7a4c9497b6d259f`)
+      .then(response => response.data)
+      .catch(error => error);
+    console.log(playlist);
+    e.preventDefault();
+  }
   /*
   calls Spotify's endpoint that searches for playlists based on input query
   processes search results into an array of playlist objects
@@ -102,6 +133,14 @@ const SpotifyAPI = () => {
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <button onClick={handleChange}>Click here for MUSIC</button>
+      
+      <br />
+      <div>
+        <button onClick={handleSubmitPlaylist}>Click to submit Music</button>
+      </div>
+      <div>
+        <button onClick={handleSubmitShowPlaylist}>Click to submit print playlist</button>
+      </div>
 
       <br></br>
       <div>

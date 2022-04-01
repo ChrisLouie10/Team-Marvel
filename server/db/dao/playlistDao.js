@@ -1,12 +1,14 @@
-const Playlist = require('../models/playlistsModel');
+const mongoose = require('mongoose');
+const Playlist = require('../models/playlistModel');
 
-function createPlaylist(playlistId, playlistDescription, songs) {
-  const playlist = new Playlist({playlistId, playlistDescription, songs});
-  return playlist.save();
+function createPlaylist(playlist) {
+  const newPlaylist = new Playlist(playlist);
+  return newPlaylist.save();
 }
 
-function findPlaylistById(playlistId) {
-  return Playlist.findOne({playlistId});
+function findPlaylistById(id) {
+  if(!mongoose.isValidObjectId(id)) return null;
+  return Playlist.findOne({_id: id});
 }
 
 module.exports = {
