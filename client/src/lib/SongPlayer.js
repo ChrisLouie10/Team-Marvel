@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 import SiriWave from "siriwave";
+import { Howl } from 'howler';
 
 const SongPlayer = (props) => {
   const soundplayerContainer = useRef(null); // soundwave component needs to access a DOM element
@@ -9,7 +10,7 @@ const SongPlayer = (props) => {
   const [timeLeft, setTimeLeft] = useState(null) // keeping track how many seconds remain in song
   const [decrementerId, setDecrementerId] = useState(null) // used to cancel a setTimeout function call, after it finishes decrementing timeLeft by 1 second
 
-  // create soundwave
+  // create soundwave, set timer, set mp3
   useEffect(() => {
     setTimeLeft(30)
 
@@ -32,6 +33,13 @@ const SongPlayer = (props) => {
         ],
       })
     )
+
+    var sound = new Howl({
+      src: [props.mp3],
+      html5: true
+      })
+
+    sound.play()
   }, [props.mp3])
 
   // manage timer
