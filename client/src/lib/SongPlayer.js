@@ -7,7 +7,7 @@ import './SongPlayer.css'
 
 // will start/reset the timer, song audio, and soundwave when song parameter changes
 const SongPlayer = (props) => {
-  const soundplayerContainer = useRef(null); // soundwave component needs to access a DOM element
+  const soundwaveContainer = useRef(null); // soundwave component needs to access a DOM element
   const [soundwave, setSoundwave] = useState(null) // soundwave component from library
 
   const [timeLeft, setTimeLeft] = useState(null) // keeping track how many seconds remain in song
@@ -23,8 +23,8 @@ const SongPlayer = (props) => {
     if (soundwave) soundwave.dispose()
 
     setSoundwave(new SiriWave({
-      container: soundplayerContainer.current,
-      width: soundplayerContainer.current.offsetWidth,
+      container: soundwaveContainer.current,
+      width: soundwaveContainer.current.offsetWidth,
       height: 220,
       style: 'ios9',
       speed: .06,
@@ -78,7 +78,7 @@ const SongPlayer = (props) => {
                 backgroundColor: '#44ada2'}}>
 
         {/* soundwave and countdown text */}
-        <div className="songplayer" ref={soundplayerContainer}>
+        <div className="songplayer" ref={soundwaveContainer}>
           <p>{timeLeft}</p>
         </div>
 
