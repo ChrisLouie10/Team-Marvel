@@ -3,6 +3,7 @@ import './GameMain.css'
 import { useState, useEffect } from 'react'
 import { Howl } from 'howler'
 import socket from '../../components/Socket'
+import SongPlayer from '../../lib/SongPlayer'
 
 // TODO: Load answers
 
@@ -85,9 +86,7 @@ const GameMain = () => {
         </div>
         <div className="username">Username</div>
       </div>
-      <div className="songplayer">
-        songplayer
-      </div>
+      <SongPlayer mp3={mp3}/>
       <div className="btn-container">
         <button onClick={handleClick} className="btn" data-key="1">{answers.answer1}</button>
         <button className="btn incorrect" data-key="2">{answers.answer2}</button>

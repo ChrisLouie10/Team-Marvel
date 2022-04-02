@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 import SiriWave from "siriwave";
 import { Howl } from 'howler';
 
+import '../pages/Game/GameMain.css'
+
+// will start/reset the timer, song audio, and soundwave when song parameter changes
 const SongPlayer = (props) => {
   const soundplayerContainer = useRef(null); // soundwave component needs to access a DOM element
   const [soundwave, setSoundwave] = useState(null) // soundwave component from library
@@ -67,8 +70,19 @@ const SongPlayer = (props) => {
   }, [timeLeft])
 
   return (
-    <div style={{width: '80%', height: '100%'}} ref={soundplayerContainer}>
-      <p>{timeLeft}</p>
+    <div className="songplayer-container">
+    
+      {/* moving progress bar in background */}
+      <div className="progress-bar"
+        style={{width: `${103 - ((timeLeft / 30) * 100)}%`,
+                backgroundColor: '#44ada2'}}>
+
+        {/* soundwave and countdown text */}
+        <div className="songplayer" ref={soundplayerContainer}>
+          <p>{timeLeft}</p>
+        </div>
+
+      </div>
     </div>
   );
 }
