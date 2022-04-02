@@ -10,6 +10,8 @@ const SongPlayer = (props) => {
   const [timeLeft, setTimeLeft] = useState(null) // keeping track how many seconds remain in song
   const [decrementerId, setDecrementerId] = useState(null) // used to cancel a setTimeout function call, after it finishes decrementing timeLeft by 1 second
 
+  const [sound, setSound] = useState(null)
+
   // create soundwave, set timer, set mp3
   useEffect(() => {
     setTimeLeft(30)
@@ -34,13 +36,20 @@ const SongPlayer = (props) => {
       })
     )
 
-    var sound = new Howl({
+    // if current song gets interrupted, stop current song from playing
+    if (sound) sound.unload()
+
+    setSound(new Howl({
       src: [props.mp3],
       html5: true
       })
-
-    sound.play()
+    )
   }, [props.mp3])
+
+  // play whenever a new song is set
+  useEffect(() => {
+    if (sound) sound.play()
+  }, [sound])
 
   // manage timer
   useEffect(() => {
