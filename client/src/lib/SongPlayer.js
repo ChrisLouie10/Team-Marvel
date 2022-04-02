@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import SiriWave from "siriwave";
 import { Howl } from 'howler';
 
-import '../pages/Game/GameMain.css'
+import './SongPlayer.css'
 
 // will start/reset the timer, song audio, and soundwave when song parameter changes
 const SongPlayer = (props) => {

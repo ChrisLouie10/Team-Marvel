@@ -1,0 +1,25 @@
+.songplayer-container { /* constant light-colored background behind both soundwave and sound progress bar */
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1.5em;
+  background-color: hsl(173, 44%, 56%);
+}
+
+.progress-bar { /* moving darker-colored background behind soundwave in songplayer */
+  z-index: 1;
+  -webkit-transition: width .5s ease;
+  -o-transition: width .5s ease;
+  transition: width .5s ease;
+}
+
+.songplayer { /* contains soundwave and countdown text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: transparent;
+  color: white;
+  z-index: 5;
+  width: 100vw;
+}
