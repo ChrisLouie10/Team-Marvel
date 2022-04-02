@@ -6,7 +6,8 @@ const SongPlayer = (props) => {
   const soundplayerContainer = useRef(null); // soundwave component needs to access a DOM element
   const [soundwave, setSoundwave] = useState(null) // soundwave component from library
 
-  const [timeLeft, setTimeLeft] = useState(null)
+  const [timeLeft, setTimeLeft] = useState(null) // keeping track how many seconds remain in song
+  const [decrementerId, setDecrementerId] = useState(null) // used to cancel a setTimeout function call, after it finishes decrementing timeLeft by 1 second
 
   // create soundwave
   useEffect(() => {
@@ -35,8 +36,13 @@ const SongPlayer = (props) => {
 
   // manage timer
   useEffect(() => {
+    // cancel previously created setTimeout call, to prevent multiple setTimeout() running at once
+    if (decrementerId)
+      clearTimeout(decrementerId)
+
     if (timeLeft > 0) {
-      setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      // decrement count by 1
+      setDecrementerId(setTimeout(() => setTimeLeft(timeLeft - 1), 1000));
     }
     else if (timeLeft === 0) {
       soundwave.stop()
