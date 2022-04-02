@@ -42,19 +42,30 @@ io.on('connection', (socket) => {
   })
   
   socket.on('createGame', (data) => {
-
     // create game PIN
     const gamePin = nanoid();
 
-    // set id to socket id
+    // set data
+    const hostName = data.hostName
     const hostId = data.hostId
+    const playlistId = data.playlistId
 
     // create a live game in the database with game data
-    const game = games.addGame({ gamePin: gamePin, hostSocketId: socket.id, gameLive: false, currentQuestion: 1, playersAnswered: 0, 
-      players: [{playerSocketId: socket.id, playerId: hostId, playerName: data.hostName}] })
+    const game = games.addGame({ 
+      gamePin: gamePin, 
+      hostSocketId: socket.id, 
+      gameLive: false,
+      playlistId: playlistId, 
+      currentQuestion: 1, 
+      playersAnswered: 0, 
+      players: [{
+        playerSocketId: socket.id, 
+        playerId: hostId, 
+        playerName: hostName
+      }]
+    })
     if (!game) {
       console.log("Game not created")
-      // socket.emit('gameNotFound')
       return
     } else console.log("Game created")
     console.log(game)

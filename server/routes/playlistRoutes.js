@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authenticate = require('../lib/passport/authenticate');
 const { playlistValidation } = require('../lib/validation/playlistValidation');
-const { createPlaylist, findPlaylistById } = require('../db/dao/playlistDao');
+const { createPlaylist, findPlaylists, findPlaylistById } = require('../db/dao/playlistDao');
 const modelToId = require('../lib/converters/modelToId');
 const { playlistToObject } = require('../lib/converters/playlistConverter');
 
@@ -18,6 +18,11 @@ router.post('/', async (req, res) => {
   }
 
 });
+
+router.get('/', async (req, res) => {
+  const playlists = await findPlaylists()
+  return res.status(200).send(playlists)
+})
 
 router.get('/:id', async (req, res) => {
   const playlist = await findPlaylistById(req.params.id);

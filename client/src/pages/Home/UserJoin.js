@@ -80,7 +80,6 @@ const UserJoin = () => {
               onChange={handlePinChange}
               name="gamecode"
               autoComplete="gamecode"
-              autoFocus
             />
             <Button 
               type="submit"

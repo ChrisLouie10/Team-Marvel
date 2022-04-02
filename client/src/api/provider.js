@@ -31,3 +31,15 @@ export const loginAuth = (data) => {
     .post(`/api/users/login`, data)
     .then(response => response);
 }
+
+export const getPlaylistById = (id) => {
+  return axios
+      .get(`/api/playlists/${id}`)
+      .then(response => response);
+}
+
+export const getPlaylists = () => {
+  return axios
+      .get(`/api/playlists`)
+      .then(response => response)
+}

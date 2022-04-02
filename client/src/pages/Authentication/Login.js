@@ -57,7 +57,7 @@ const SignIn = () => {
 
           // set user and auth context (to use across components)
           setData(user.data);
-          setAuth(true);
+          setAuth(['auth']);
 
           // display dashboard page
           navigate("/user/host", { replace: true });
