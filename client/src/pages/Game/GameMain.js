@@ -3,6 +3,7 @@ import './GameMain.css'
 import { useState, useEffect } from 'react'
 import { Howl } from 'howler'
 import socket from '../../components/Socket'
+import SongPlayer from '../../lib/SongPlayer'
 
 // TODO: Load answers
 
@@ -49,19 +50,16 @@ const GameMain = () => {
     //   })
     // });
 
-    // manually set sound
-    howl = new Howl({
-      src: [mp3],
-      html5: true
-    })
-
-    // play sound
-    howl.play()
-
   }, [question]);
 
   // For now, we manually set data, but when sockets are implemented, it will tell us when to update the data and send in data
   const handleClick = () => {
+     // trying out Songplayer
+    let song1 = 'https://p.scdn.co/mp3-preview/bbf2bbe22f9f4d9685e413002eb404355a93c8bc?cid=774b29d4f13844c495f206cafdad9c86'
+    let song2 = 'https://p.scdn.co/mp3-preview/f9c63ee9428c3d719dbf1b5a1e294f5e6bf0def1?cid=a98c89e338374cecbfd3b95f1c127547'
+    if (song1 === mp3) setMp3(song2);
+    else setMp3(song1);
+
     setQuestion(1)
     setAnswers({
       answer1: 'Love On Top',
@@ -85,9 +83,7 @@ const GameMain = () => {
         </div>
         <div className="username">Username</div>
       </div>
-      <div className="songplayer">
-        songplayer
-      </div>
+      <SongPlayer mp3={mp3}/>
       <div className="btn-container">
         <button onClick={handleClick} className="btn" data-key="1">{answers.answer1}</button>
         <button className="btn incorrect" data-key="2">{answers.answer2}</button>
