@@ -1,32 +1,35 @@
 class LiveGames {
 
   constructor () {
-    this.games = [];
+    this.games = {};
   }
 
   addGame(gameData){
-    const game = gameData;
-    this.games.push(game);
-    return game;
+    this.games[gameData.gamePin] = gameData;
+    return this.games[gameData.gamePin];
   }
 
-  removeGame(hostSocketId){
-    var game = this.getGame(hostSocketId);
+  removeGame(gamePin){
+    var game = this.getGame(gamePin);
     
     // if game exists, remove from live games
     if(game){
-      this.games = this.games.filter((game) => game.hostSocketId !== hostSocketId);
+      delete this.games[gamePin]
     }
     return game;
   }
 
-  getGame(hostSocketId){
-    return this.games.filter((game) => game.hostSocketId === hostSocketId)[0]
+  getGame(gamePin){
+    return this.games[gamePin];
   }
+
+  // getNewSongFromGame(gamePin) {
+  //   const 
+  // }
 
   addPlayer(gamePin, playerData) {
     // find the game
-    const game = this.games.filter(game => game.gamePin === gamePin)[0]
+    const game = this.getGame(gamePin)
     if (game) {
       game.players.push(playerData)
     }
@@ -36,7 +39,13 @@ class LiveGames {
 
   removePlayer(socketId) {
     // find the game the player is in
-    const game = this.games.filter((game) => game.players.filter(player => player.playerSocketId === socketId)[0])[0]
+    let game = null;
+    for(let gamePin in this.games) {
+      if(this.games[gamePin].players.filter((player) => player.playerSocketId == socketId)) {
+        game = this.games[gamePin];
+        break;
+      }
+    }
     if (game) {
       // remove player from the game
       game.players = game.players.filter(player => player.playerSocketId !== socketId)

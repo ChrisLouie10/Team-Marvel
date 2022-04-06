@@ -12,7 +12,7 @@ import socket from '../../components/Socket';
 
 // page where a logged in user (as player) can join a game started by a different user (host)
 const UserJoin = () => {
-  const { data } = useAuth();
+  const { data, setData } = useAuth();
   const navigate = useNavigate();
   const [gamePin, setGamePin] = useState('')
   const [name, setName] = useState('')

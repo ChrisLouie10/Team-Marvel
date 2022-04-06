@@ -3,7 +3,7 @@ const app = require('./express');
 const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10)
 const { createPlaylist, findPlaylistById } = require('../db/dao/playlistDao');
-
+const { playlistToObject } = require('../lib/converters/playlistConverter');
 
 // import classes
 const {LiveGames} = require('./utils/liveGames');
@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
     if (game.hostSocketId === socket.id) {
       console.log("game removed from live games")
       io.to(gamePin).emit('endGame', {message: "host has disconnected"})
-      games.removeGame(socket.id)
+      games.removeGame(gamePin)
       return
     }
 
@@ -41,21 +41,21 @@ io.on('connection', (socket) => {
     io.to(gamePin).emit('lobbyData', game)
   })
   
-  socket.on('createGame', (data) => {
+  socket.on('createGame', async (data) => {
     // create game PIN
     const gamePin = nanoid();
 
     // set data
     const hostName = data.hostName
     const hostId = data.hostId
-    const playlistId = data.playlistId
+    const playlist = await findPlaylistById(data.playlistId)
 
     // create a live game in the database with game data
     const game = games.addGame({ 
       gamePin: gamePin, 
       hostSocketId: socket.id, 
       gameLive: false,
-      playlistId: playlistId, 
+      playlist: playlistToObject(playlist), 
       currentQuestion: 1, 
       playersAnswered: 0, 
       players: [{
@@ -68,7 +68,6 @@ io.on('connection', (socket) => {
       console.log("Game not created")
       return
     } else console.log("Game created")
-    console.log(game)
 
     // connect socket to room
     socket.join(gamePin);
@@ -95,6 +94,15 @@ io.on('connection', (socket) => {
     io.to(gamePin).emit('lobbyData', game)
   })
 
+  socket.on('startGame', async (data) => {
+
+    const game = games.getGame(data.gamePin);
+
+    if(game) {
+      io.to(game.gamePin).emit('loadGame')
+    }
+    else console.log('game not found');
+  });
 
   // socket.on('startCountdown', (songs) => {
   //   const countdown = () => {

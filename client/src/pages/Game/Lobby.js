@@ -23,7 +23,16 @@ const Lobby = () => {
       console.log(data.message)
       navigate('/user/host', {replace: true})
     })
+
+    socket.on('loadGame', (data) => {
+      navigate('/game', {replace: true})
+    })
   })
+
+  function handlePress(e) {
+    e.preventDefault();
+    socket.emit('startGame', {gamePin: state.gamePin});
+  }
   
   return (
     <div>
@@ -35,6 +44,10 @@ const Lobby = () => {
             <li key={player.playerId}>This is me: {player.playerName}</li> :
             <li key={player.playerId}>{player.playerName}</li>
       ))}
+      {state.hostSocketId === socket.id ? 
+        <button onClick={handlePress}>Start Game</button>
+        : <></>
+      }
     </div>
   )
 }
