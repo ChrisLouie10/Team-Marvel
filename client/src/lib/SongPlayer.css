@@ -9,9 +9,12 @@
 .progress-bar { /* moving darker-colored background behind soundwave in songplayer */
   height: 100%;
   z-index: 1;
-  -webkit-transition: width .5s ease;
-  -o-transition: width .5s ease;
-  transition: width .5s ease;
+}
+
+.animate-width {
+  -webkit-transition: width 30s linear;
+  -o-transition: width 30s linear;
+  transition: width 30s linear;
 }
 
 .songplayer { /* contains soundwave and countdown text */
