@@ -55,9 +55,11 @@ io.on('connection', (socket) => {
       gamePin: gamePin, 
       hostSocketId: socket.id, 
       gameLive: false,
-      playlistId: playlistId, 
-      currentQuestion: 1, 
-      playersAnswered: 0, 
+      playlistId: playlistId,
+      selectedSongs: [],
+      currentQuestion: 0, 
+      playersAnswered: 0,
+      playersConnected: 0,
       players: [{
         playerSocketId: socket.id, 
         playerId: hostId, 
@@ -68,7 +70,6 @@ io.on('connection', (socket) => {
       console.log("Game not created")
       return
     } else console.log("Game created")
-    console.log(game)
 
     // connect socket to room
     socket.join(gamePin);
@@ -95,23 +96,61 @@ io.on('connection', (socket) => {
     io.to(gamePin).emit('lobbyData', game)
   })
 
+  socket.on('startGame', async () => {
+    console.log('starting game')
+    const game = games.setLiveGame(socket.id)
 
-  // socket.on('startCountdown', (songs) => {
-  //   const countdown = () => {
-  //     // Send current time to connected users
-  //     socket.emit('timerUpdate', timer--);
+    /* Randomize array in-place using Durstenfeld shuffle algorithm */
+    function shuffleArray(songs) {
+      shuffledSongs = songs.slice(0)
+      for (var i = shuffledSongs.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = shuffledSongs[i];
+          shuffledSongs[i] = shuffledSongs[j];
+          shuffledSongs[j] = temp;
+      }
+      return shuffledSongs
+    }
 
-  //     // Stop timer once interval is less than 0, then start game
-  //     if (timer < 0) {
-  //       clearInterval(timerId)
-  //       socket.emit('startGame', songs)
-  //     }
-  //   }
+    const playlist = await findPlaylistById(game.playlistId)
+    game.selectedSongs = shuffleArray(playlist.songs).slice(0, 5)
+    io.to(game.gamePin).emit('gameStart', game)
+  })
 
-  //   let timer = 2;
-  //   // Call countdown once every second
-  //   timerId = setInterval(countdown, 1000);
-  // })
+  socket.on('connected', (data) => {
+    console.log('player connected')
+    const game = games.setPlayersConnected(data.hostSocketId, "add")
+    // when all players connect, begin the countdown to next question
+    if (game.playersConnected == game.players.length) {
+      io.to(game.gamePin).emit('connected')
+    }
+  })
+
+  socket.on('nextQuestion', (hostSocketId) => {
+    // set up the next song to be sent
+    const game = games.getGame(hostSocketId)
+    console.log(game.selectedSongs)
+    const nextSong = game.selectedSongs[game.currentQuestion].songUrl
+    game.currentQuestion++
+
+    console.log('countdown time')
+      const countdown = () => {
+        // Send current time to connected users
+        io.to(game.gamePin).emit('countdown', timer--);
+  
+        // Stop timer once interval is less than 0, then send next question
+        if (timer < 0) {
+          clearInterval(timerId)
+          console.log('timer ended')
+          io.to(game.gamePin).emit('nextQuestion', {song: nextSong})
+        }
+      }
+  
+      let timer = 5;
+      // Call countdown once every second
+      timerId = setInterval(countdown, 1000);
+  })
+  
 })
 
 module.exports = server;

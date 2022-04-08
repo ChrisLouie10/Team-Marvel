@@ -1,11 +1,13 @@
 .songplayer-container { /* constant light-colored background behind both soundwave and sound progress bar */
+  flex-grow: 1;
   width: 100%;
-  height: 100%;
+  height: 300px;
   margin-bottom: 1.5em;
   background-color: hsl(173, 44%, 56%);
 }
 
 .progress-bar { /* moving darker-colored background behind soundwave in songplayer */
+  height: 100%;
   z-index: 1;
 }
 
@@ -25,4 +27,15 @@
   color: white;
   z-index: 5;
   width: 100vw;
+  height: 100%;
+}
+
+.timeLeft {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
 }

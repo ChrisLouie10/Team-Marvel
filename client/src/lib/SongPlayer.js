@@ -77,14 +77,14 @@ const SongPlayer = (props) => {
   return (
     <div className="songplayer-container">
     
+      <p className="timeLeft">{timeLeft}</p>
       {/* moving progress bar in background */}
       <div className={`progress-bar${isPlaying ? ' animate-width' : ''}`}
         style={{width: `${isPlaying ? '100%' : '0'}`,
                 backgroundColor: '#44ada2'}}>
-
+        
         {/* soundwave and countdown text */}
         <div className="songplayer" ref={soundwaveContainer}>
-          <p>{timeLeft}</p>
         </div>
 
       </div>
