@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 
 import SpotifyPlaylistCard from '../lib/SpotifyPlaylistCard'
 import SongPlayer from '../lib/SongPlayer'
+import PlaylistSkeleton from '../lib/PlaylistSkeleton'
 
 import Masonry, {ResponsiveMasonry} from 'react-responsive-masonry'
 
@@ -38,9 +39,11 @@ const Search = (props) => {
     setEndpointParam(searchFunctions[functionName].input.value)
   };
 
+  const [loadingData, setLoadingData] = useState(false)
   const [searchResults, setSearchResults] = useState([]) // either array of playlist objects or song objects
 
   const searchSpotify = (event) => {
+    setLoadingData(true)
     searchFunctions[endpoint].function(endpointParam)
       .then(data =>
         /*
@@ -50,6 +53,10 @@ const Search = (props) => {
         setTimeout(() => setSearchResults(data), 1000)
       )
   }
+
+  useEffect(() => {
+    setLoadingData(false)
+  }, [searchResults])
 
   // song object for current song being played
   const [song, setSong] = useState({
@@ -102,31 +109,42 @@ const Search = (props) => {
         <button onClick={searchSpotify}>{endpoint}</button>
       </div>
 
-      {
-      /* playlist search results */
-      searchResults && searchResults.length > 0 && searchResults[0].songs ?
-      <ResponsiveMasonry style={{
-          maxWidth: '1200px',
-          width: '100%',
-          marginLeft: '70px', marginRight: '50px',
-          }}>
-          <Masonry>
-            {searchResults.map(playlist =>
-               <SpotifyPlaylistCard
-                  key={playlist.id}
-                  playlist={playlist}
-                  playMp3={playMp3}
-                  savePlaylist={savePlaylist}
-                  />
-                )}
-          </Masonry>
-      </ResponsiveMasonry>
+      {loadingData ?
 
-      : /* song search results */
-      <>
-        {searchResults.map(song => <p>{song.name}</p>)}
-      </>
-      }
+        <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', width: '80%'}}>
+          <PlaylistSkeleton expanded={true}/>
+          <PlaylistSkeleton expanded={false}/>
+          <PlaylistSkeleton expanded={false}/>
+        </div>
+
+        :<>
+          { /* display of loaded data */
+
+            /* playlist search results */
+            searchResults && searchResults.length > 0 && searchResults[0].songs ?
+            <ResponsiveMasonry style={{
+                maxWidth: '1200px',
+                width: '100%',
+                marginLeft: '70px', marginRight: '50px',
+                }}>
+                <Masonry>
+                  {searchResults.map(playlist =>
+                     <SpotifyPlaylistCard
+                        key={playlist.id}
+                        playlist={playlist}
+                        playMp3={playMp3}
+                        savePlaylist={savePlaylist}
+                        />
+                      )}
+                </Masonry>
+            </ResponsiveMasonry>
+
+            : /* song search results */
+            <>
+              {searchResults.map(song => <p>{song.name}</p>)}
+            </>
+          }
+        </> }
     </>
   );
 }
