@@ -36,6 +36,7 @@ export default function SpotifyPlaylistCard(props) {
                     <IconButton
                         onClick={e => {
                           e.stopPropagation()
+                          props.playMp3(song.mp3)
                         }}
                         sx={{color: 'white', '&:active, &:hover': {color: 'cyan'}}}>
                       <PlayArrowIcon />

@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 import SpotifyPlaylistCard from '../lib/SpotifyPlaylistCard'
+import SongPlayer from '../lib/SongPlayer'
 
 import Masonry, {ResponsiveMasonry} from 'react-responsive-masonry'
 
@@ -50,8 +51,12 @@ const Search = (props) => {
       )
   }
 
+  const [mp3, setMp3] = useState('') // url of mp3 file for current song being played
+
   return(
     <>
+      <SongPlayer mp3={mp3}/>
+
       <div>
         {/* choose endpoint */}
         <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
@@ -91,6 +96,7 @@ const Search = (props) => {
                <SpotifyPlaylistCard
                   key={playlist.id}
                   playlist={playlist}
+                  playMp3={setMp3}
                   />
                 )}
           </Masonry>
