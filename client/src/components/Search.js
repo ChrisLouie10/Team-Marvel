@@ -51,7 +51,19 @@ const Search = (props) => {
       )
   }
 
-  const [mp3, setMp3] = useState('') // url of mp3 file for current song being played
+  // song object for current song being played
+  const [song, setSong] = useState({
+    mp3: '',
+    endSong: () => {} // function can be accessed to update current song's display when it's not playing anymore (occurs upon a new song change)
+  })
+
+  // called when user clicks on a song's play button
+  const playMp3 = async (newSong) => {
+    if (song.mp3 === newSong.mp3) return; // songplayer can't play same song twice in a row
+
+    await song.endSong() // removes highlight on current song's display text
+    setSong(newSong)
+  }
 
   const savePlaylist = (playlist) => {
     props.savePlaylist({
@@ -62,7 +74,7 @@ const Search = (props) => {
 
   return(
     <>
-      <SongPlayer mp3={mp3}/>
+      <SongPlayer mp3={song.mp3}/>
 
       <div>
         {/* choose endpoint */}
@@ -103,7 +115,7 @@ const Search = (props) => {
                <SpotifyPlaylistCard
                   key={playlist.id}
                   playlist={playlist}
-                  playMp3={setMp3}
+                  playMp3={playMp3}
                   savePlaylist={savePlaylist}
                   />
                 )}

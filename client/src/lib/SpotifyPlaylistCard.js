@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography';
 
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
+import SongListItem from './SongListItem'
 
 // card shows a playlist's info
 export default function SpotifyPlaylistCard(props) {
@@ -30,20 +30,7 @@ export default function SpotifyPlaylistCard(props) {
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               {props.playlist.songs.map(song =>
-                  <Typography key={song.mp3} style={{display: 'flex', alignItems: 'center'}}>
-
-                    {/* play button */}
-                    <IconButton
-                        onClick={e => {
-                          e.stopPropagation()
-                          props.playMp3(song.mp3)
-                        }}
-                        sx={{color: 'white', '&:active, &:hover': {color: 'cyan'}}}>
-                      <PlayArrowIcon />
-                    </IconButton>
-
-                    {song.name}
-                  </Typography>
+                  <SongListItem playSong={props.playMp3} song={song}/>
               )}
             </CardContent>
           </Collapse>
