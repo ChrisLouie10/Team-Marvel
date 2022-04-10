@@ -50,7 +50,7 @@ export default function SpotifyPlaylistCard(props) {
       </CardActionArea>
 
       <CardActions>
-          <Button size="small" onClick={() => {}}>Save</Button>
+          <Button size="small" onClick={() => props.savePlaylist(props.playlist)}>Save</Button>
       </CardActions>
     </Card>
   );

@@ -19,51 +19,12 @@ const SpotifyAPI = () => {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
-  const handleSubmitPlaylist= async (e) => {
-    const playlist = {
-      playlistName: "Usher",
-      songs: [
-        {
-          songName: "Yeah! (feat. Lil Jon & Ludacris)",
-          songUrl: "https://p.scdn.co/mp3-preview/775632d9867341c779b7238f1718f9abd1773061?cid=a98c89e338374cecbfd3b95f1c127547"
-        }, 
-        {
-          songName: "DJ Got Us Fallin' In Love (feat. Pitbull)",
-          songUrl: "https://p.scdn.co/mp3-preview/59848c60516323a7d87eaf5b26d6d5188343377c?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "U Remind Me",
-          songUrl: "https://p.scdn.co/mp3-preview/44eb354777f2ab3b28ba53cf73ce124efe038269?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "Without You (feat. Usher)",
-          songUrl: "https://p.scdn.co/mp3-preview/cb236e230f8bf69717a4ab0356efcc9f81062146?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "My Boo",
-          songUrl: "https://p.scdn.co/mp3-preview/7534c551af83c411c6299b5298f404e74453c375?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "OMG (feat. will.i.am)",
-          songUrl: "https://p.scdn.co/mp3-preview/56df9e5a1b492b7454701c7e7a4438d6409c3f2a?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "Love in This Club (feat. Young Jeezy)",
-          songUrl: "https://p.scdn.co/mp3-preview/9037730bd9051bb96363d8ecda12d7ea84936837?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-        {
-          songName: "Promise (feat. Usher)",
-          songUrl: "https://p.scdn.co/mp3-preview/4ed808367843ee8d4118af2ac034a05965cbff39?cid=a98c89e338374cecbfd3b95f1c127547"
-        },
-      ]
-    };
-    
+  const handleSubmitPlaylist= async (playlist) => {
     const playlistId = await axios
       .post(`/api/playlists`, playlist)
       .then(response => response.data)
       .catch(error => error);
     console.log(playlistId);
-    e.preventDefault();
   }
   
   const handleSubmitShowPlaylist = async (e) => {
@@ -155,6 +116,7 @@ const SpotifyAPI = () => {
    
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      {/*
       <button onClick={handleChange}>Click here for MUSIC</button>
       
       <br />
@@ -164,11 +126,14 @@ const SpotifyAPI = () => {
       <div>
         <button onClick={handleSubmitShowPlaylist}>Click to submit print playlist</button>
       </div>
+      */}
 
       <Search searchFunctions={{
         'searchPlaylists': searchPlaylists,
         'getPlaylistSongs': getPlaylistSongs,
-        }}/>
+        }}
+        savePlaylist={handleSubmitPlaylist}
+        />
     </div>
   )
 }

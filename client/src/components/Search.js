@@ -53,6 +53,13 @@ const Search = (props) => {
 
   const [mp3, setMp3] = useState('') // url of mp3 file for current song being played
 
+  const savePlaylist = (playlist) => {
+    props.savePlaylist({
+      playlistName: playlist.name,
+      songs: playlist.songs.map(song => ({songName: song.name, songUrl: song.mp3}))
+    })
+  }
+
   return(
     <>
       <SongPlayer mp3={mp3}/>
@@ -97,6 +104,7 @@ const Search = (props) => {
                   key={playlist.id}
                   playlist={playlist}
                   playMp3={setMp3}
+                  savePlaylist={savePlaylist}
                   />
                 )}
           </Masonry>
