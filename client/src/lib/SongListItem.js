@@ -26,7 +26,7 @@ export default function SongListItem(props) {
 
             props.playSong({
               ...props.song,
-              endSong: () => setIsPlaying(false) // called when different song starts
+              retire: () => setIsPlaying(false) // called when different song starts
             })
           }}
           sx={{color: `${isPlaying ? '#7dffdc' : 'white'}`,

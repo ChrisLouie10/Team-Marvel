@@ -61,14 +61,14 @@ const Search = (props) => {
   // song object for current song being played
   const [song, setSong] = useState({
     mp3: '',
-    endSong: () => {} // function can be accessed to update current song's display when it's not playing anymore (occurs upon a new song change)
+    retire: () => {} // function can be accessed to update current song's display when it's not playing anymore (occurs upon a new song change)
   })
 
   // called when user clicks on a song's play button
   const playMp3 = async (newSong) => {
     if (song.mp3 === newSong.mp3) return; // songplayer can't play same song twice in a row
 
-    await song.endSong() // removes highlight on current song's display text
+    await song.retire() // removes highlight on current song's display text
     setSong(newSong)
   }
 
