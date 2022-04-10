@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import SpotifyWebApi from 'spotify-web-api-node';
 import { Howl } from 'howler';
 import axios from 'axios';
+import Search from './Search'
+
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'a98c89e338374cecbfd3b95f1c127547'
@@ -11,9 +13,6 @@ const spotifyApi = new SpotifyWebApi({
 
 const SpotifyAPI = () => {
   const accessToken = useAuth()
-
-  const [playlistQuery, setPlaylistQuery] = useState('instrumental')
-  const [playlistId, setPlaylistId] = useState('37i9dQZF1DZ06evO1ahqM0')
 
   useEffect(() => {
     if (!accessToken) return;
@@ -80,9 +79,9 @@ const SpotifyAPI = () => {
   processes search results into an array of playlist objects
   results are filtered to only have songs and playlists with non null mp3s
   */
-  function searchPlaylists() {
+  const searchPlaylists = (query) => {
     var processedPlaylists = []
-    spotifyApi.searchPlaylists(playlistQuery)
+    return spotifyApi.searchPlaylists(query)
       .then((data) => {
         // only take necessary info from playlists
         if (data.body) {
@@ -110,14 +109,14 @@ const SpotifyAPI = () => {
               processedPlaylists.push(playlist)
           })
       ))
-      .then(() => console.log(playlistQuery, processedPlaylists))
+      // .then(() => console.log(query, processedPlaylists))
+      .then(() => processedPlaylists)
       .catch(err => console.log(err))
   }
 
   // gets list of song objects
-  async function getPlaylistSongs(playlistId) {
-    var songs = []
-    await spotifyApi.getPlaylist(playlistId)
+  function getPlaylistSongs(playlistId) {
+    return spotifyApi.getPlaylist(playlistId)
     .then((data) => {
       // get necessary song info
       return data.body.tracks.items.map(song => ({
@@ -125,10 +124,9 @@ const SpotifyAPI = () => {
           mp3: song.track.preview_url
       }))
     })
-    .then(allSongs => songs = allSongs.filter(songData => songData.mp3 !== null))
+    .then(allSongs => allSongs.filter(songData => songData.mp3 !== null))
     // .then(console.log)
     .catch(err => console.log(err));
-    return songs
   }
 
   const handleChange = (e) => {
@@ -167,19 +165,10 @@ const SpotifyAPI = () => {
         <button onClick={handleSubmitShowPlaylist}>Click to submit print playlist</button>
       </div>
 
-      <br></br>
-      <div>
-        <label>playlistQuery: </label>
-        <input type='text' value={playlistQuery} onChange={e => setPlaylistQuery(e.target.value)}></input>
-      </div>
-      <button onClick={searchPlaylists}>searchPlaylists</button>
-
-      <br></br>
-      <div>
-        <label>playlistId: </label>
-        <input type='text' value={playlistId} onChange={e => setPlaylistId(e.target.value)}></input>
-      </div>
-      <button onClick={e => getPlaylistSongs(playlistId).then(console.log)}>getPlaylistSongs</button>
+      <Search searchFunctions={{
+        'searchPlaylists': searchPlaylists,
+        'getPlaylistSongs': getPlaylistSongs,
+        }}/>
     </div>
   )
 }
