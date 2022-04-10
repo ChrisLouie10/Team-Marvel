@@ -41,7 +41,13 @@ const Search = (props) => {
 
   const searchSpotify = (event) => {
     searchFunctions[endpoint].function(endpointParam)
-      .then(setSearchResults)
+      .then(data =>
+        /*
+          there was a bug where search results weren't being displayed, even after data was received and set
+          out of several bug fix attempts (including additional useStates & useEffects), only setTimeout() hadn't failed so far
+        */
+        setTimeout(() => setSearchResults(data), 1000)
+      )
   }
 
   return(
