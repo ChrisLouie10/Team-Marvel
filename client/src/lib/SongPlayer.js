@@ -14,10 +14,14 @@ const SongPlayer = (props) => {
   const [decrementerId, setDecrementerId] = useState(null) // used to cancel a setTimeout function call, after it finishes decrementing timeLeft by 1 second
 
   const [sound, setSound] = useState(null)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   // create soundwave, set timer, set mp3
   useEffect(() => {
     setTimeLeft(30)
+
+    // to restart progress bar if it's still running
+    if (isPlaying) setIsPlaying(false)
 
     // prevent duplicate soundwaves that may be created due to using refs
     if (soundwave) soundwave.dispose()
@@ -52,6 +56,7 @@ const SongPlayer = (props) => {
   // play whenever a new song is set
   useEffect(() => {
     if (sound) sound.play()
+    setIsPlaying(true)
   }, [sound])
 
   // manage timer
@@ -72,14 +77,14 @@ const SongPlayer = (props) => {
   return (
     <div className="songplayer-container">
     
+      <p className="timeLeft">{timeLeft}</p>
       {/* moving progress bar in background */}
-      <div className="progress-bar"
-        style={{width: `${103 - ((timeLeft / 30) * 100)}%`,
+      <div className={`progress-bar${isPlaying ? ' animate-width' : ''}`}
+        style={{width: `${isPlaying ? '100%' : '0'}`,
                 backgroundColor: '#44ada2'}}>
-
+        
         {/* soundwave and countdown text */}
         <div className="songplayer" ref={soundwaveContainer}>
-          <p>{timeLeft}</p>
         </div>
 
       </div>

@@ -10,11 +10,33 @@ class LiveGames {
     return game;
   }
 
+  setLiveGame(hostSocketId) {
+    var game = this.getGame(hostSocketId);
+    if (game) {
+      game.gameLive = !game.gameLive;
+    }
+    return game;
+  }
+
+  setPlayersConnected(hostSocketId, cmd) {
+    console.log("add or remove player")
+    var game = this.getGame(hostSocketId);
+    if (cmd == "add") {
+      console.log('adding')
+      game.playersConnected += 1;
+    }
+    else if(cmd == "remove") {
+      console.log('removing')
+      game.playersConnected -= 1;
+    }
+    return game;
+  }
+
   removeGame(hostSocketId){
     var game = this.getGame(hostSocketId);
     
     // if game exists, remove from live games
-    if(game){
+    if (game) {
       this.games = this.games.filter((game) => game.hostSocketId !== hostSocketId);
     }
     return game;
