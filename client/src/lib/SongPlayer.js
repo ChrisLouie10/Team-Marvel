@@ -16,47 +16,53 @@ const SongPlayer = (props) => {
   const [sound, setSound] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  // create soundwave, set timer, set mp3
-  useEffect(() => {
-    setTimeLeft(30)
 
+  function stopPreviousSong() {
     // to restart progress bar if it's still running
     if (isPlaying) setIsPlaying(false)
 
     // prevent duplicate soundwaves that may be created due to using refs
     if (soundwave) soundwave.dispose()
 
-    setSoundwave(new SiriWave({
-      container: soundwaveContainer.current,
-      width: soundwaveContainer.current.offsetWidth,
-      height: 220,
-      style: 'ios9',
-      speed: .06,
-      amplitude: 2,
-      frequency: 2,
-      curveDefinition: [
-        { color: "255, 255, 255", supportLine: true },
-        { color: "185, 240, 233" },
-        { color: "125, 255, 239" },
-        { color: "0, 237, 208" },
-        ],
-      })
-    )
-
     // if current song gets interrupted, stop current song from playing
     if (sound) sound.unload()
+  }
 
-    setSound(new Howl({
-      src: [props.mp3],
-      html5: true
-      })
-    )
+  // create soundwave, set timer, set mp3
+  useEffect(() => {
+    (async () => {
+      await stopPreviousSong() // prevent starting up new song until after previous song's states are reset
+
+      // start new song
+      setTimeLeft(30)
+      setSoundwave(new SiriWave({
+        container: soundwaveContainer.current,
+        width: soundwaveContainer.current.offsetWidth,
+        height: 220,
+        style: 'ios9',
+        speed: .06,
+        amplitude: 2,
+        frequency: 2,
+        curveDefinition: [
+          { color: "255, 255, 255", supportLine: true },
+          { color: "185, 240, 233" },
+          { color: "125, 255, 239" },
+          { color: "0, 237, 208" },
+          ],
+        })
+      )
+      setSound(new Howl({
+        src: [props.mp3],
+        html5: true
+        })
+      )
+      setIsPlaying(true)
+    })();
   }, [props.mp3])
 
   // play whenever a new song is set
   useEffect(() => {
     if (sound) sound.play()
-    setIsPlaying(true)
   }, [sound])
 
   // manage timer
