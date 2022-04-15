@@ -9,6 +9,8 @@ import SongPlayer from '../../lib/SongPlayer'
 import GameModal from './GameModal'
 import useAuth from '../../hooks/useAuth';
 
+import Scoreboard from '../../lib/Scoreboard';
+
 const GameMain = () => {
   const { data } = useAuth();
   const { state } = useLocation();
@@ -18,6 +20,7 @@ const GameMain = () => {
   const [mp3, setMp3] = useState()
   const [openModal, setOpenModal] = useState(false)
   const [timer, setTimer] = useState()
+  const [showScoreboard, setShowScoreboard] = useState(false)
   var howl = null
 
   // when question changes, load in answers & song
@@ -44,6 +47,7 @@ const GameMain = () => {
 
     socket.on('nextQuestion', (data) => {
       setOpenModal(false)
+      //setShowScoreboard(true)
       setMp3(data.song)
       console.log("next question!")
     })
@@ -88,19 +92,23 @@ const GameMain = () => {
 
   return (
     <div className="container">
-      <div className="header">
+      {showScoreboard ? <Scoreboard></Scoreboard> :
+        <><div className="header">
         <div className="score">Score: Example</div>
         <div className="username">{data.username}</div>
-      </div>
+        </div>
       {mp3 && <SongPlayer mp3={mp3}/>}
       {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div> 
-                 : !mp3 && <div className="temp-songplayer">Waiting for other players</div>}
+                 : !mp3 && <div className="temp-songplayer">Waiting for other players</div>} 
+                 
       <div className="btn-container">
         <button onClick={handleClick} className="btn" data-key="1">{answers.answer1}</button>
         <button className="btn incorrect" data-key="2">{answers.answer2}</button>
         <button className="btn correct" data-key="3">{answers.answer3}</button>
         <button className="btn fade" data-key="4">{answers.answer4}</button>
-      </div>
+      </div> </>
+      }
+      
     </div>
   )
 }

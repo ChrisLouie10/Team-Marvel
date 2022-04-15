@@ -16,12 +16,14 @@ export default function Scoreboard(props) {
         <div>
             <h1>Scoreboard</h1>
             <div>
+            {/* list of players and scores in descending order */}
                 <List sx={{ bgcolor: '#5EC1B5', padding: 10}}>
                     {players
                         .map(player => {
                             console.log("This is a player", player);
                             return (
                                 <div>
+                                    {/* player with top score has white bgcolor */}
                                     {player == players[0] ? (
                                        <ListItem sx={{ boxShadow: 1, bgcolor: 'white' }}>
                                         <Box textAlign="left" style={{ paddingRight: 5 }}>
