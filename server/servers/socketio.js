@@ -2,8 +2,9 @@
 const app = require('./express');
 const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10)
-const { createPlaylist, findPlaylistById } = require('../db/dao/playlistDao');
-
+const { findPlaylistById } = require('../db/dao/playlistDao');
+const { playlistToObject } = require('../lib/converters/playlistConverter');
+const shuffleArray = require('./utils/shuffleArray'); 
 
 // import classes
 const {LiveGames} = require('./utils/liveGames');
@@ -33,7 +34,7 @@ io.on('connection', (socket) => {
     if (game.hostSocketId === socket.id) {
       console.log("game removed from live games")
       io.to(gamePin).emit('endGame', {message: "host has disconnected"})
-      games.removeGame(socket.id)
+      games.removeGame(gamePin)
       return
     }
 
@@ -41,29 +42,31 @@ io.on('connection', (socket) => {
     io.to(gamePin).emit('lobbyData', game)
   })
   
-  socket.on('createGame', (data) => {
+  socket.on('createGame', async (data) => {
     // create game PIN
     const gamePin = nanoid();
 
     // set data
     const hostName = data.hostName
     const hostId = data.hostId
-    const playlistId = data.playlistId
+    const playlist = await findPlaylistById(data.playlistId)
 
     // create a live game in the database with game data
     const game = games.addGame({ 
       gamePin: gamePin, 
       hostSocketId: socket.id, 
       gameLive: false,
-      playlistId: playlistId,
-      selectedSongs: [],
-      currentQuestion: 0, 
+      playlist: playlistToObject(playlist).songs, 
+      answers: [],
+      currentQuestion: -1, 
       playersAnswered: 0,
       playersConnected: 0,
+      time: 0,
       players: [{
         playerSocketId: socket.id, 
         playerId: hostId, 
-        playerName: hostName
+        playerName: hostName,
+        score: 0
       }]
     })
     if (!game) {
@@ -82,7 +85,7 @@ io.on('connection', (socket) => {
     const gamePin = data.gamePin
 
     // when user joins a game, add them to the game's players
-    const game = games.addPlayer(gamePin, {playerSocketId: socket.id, playerId: data.playerId, playerName: data.playerName})
+    const game = games.addPlayer(gamePin, {playerSocketId: socket.id, playerId: data.playerId, playerName: data.playerName, score: 0})
     if (!game) {
       console.log("Game not found")
       socket.emit('gameNotFound')
@@ -96,60 +99,63 @@ io.on('connection', (socket) => {
     io.to(gamePin).emit('lobbyData', game)
   })
 
-  socket.on('startGame', async () => {
+  socket.on('startGame', async (data) => {
     console.log('starting game')
-    const game = games.setLiveGame(socket.id)
+    const game = games.setLiveGame(data.gamePin, true)
 
-    /* Randomize array in-place using Durstenfeld shuffle algorithm */
-    function shuffleArray(songs) {
-      shuffledSongs = songs.slice(0)
-      for (var i = shuffledSongs.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var temp = shuffledSongs[i];
-          shuffledSongs[i] = shuffledSongs[j];
-          shuffledSongs[j] = temp;
-      }
-      return shuffledSongs
-    }
-
-    const playlist = await findPlaylistById(game.playlistId)
-    game.selectedSongs = shuffleArray(playlist.songs).slice(0, 5)
-    io.to(game.gamePin).emit('gameStart', game)
+    game.playlist = shuffleArray(game.playlist);
+    io.to(game.gamePin).emit('gameStart', game);
   })
 
   socket.on('connected', (data) => {
     console.log('player connected')
-    const game = games.setPlayersConnected(data.hostSocketId, "add")
+    const game = games.setPlayersConnected(data.gamePin, "add")
     // when all players connect, begin the countdown to next question
     if (game.playersConnected == game.players.length) {
       io.to(game.gamePin).emit('connected')
     }
   })
 
-  socket.on('nextQuestion', (hostSocketId) => {
+  socket.on('nextQuestion', (gamePin) => {
     // set up the next song to be sent
-    const game = games.getGame(hostSocketId)
-    console.log(game.selectedSongs)
-    const nextSong = game.selectedSongs[game.currentQuestion].songUrl
+    const game = games.getGame(gamePin)
     game.currentQuestion++
+    const nextSong = game.playlist[game.currentQuestion * 4].songUrl
+    const countdown = () => {
+      // Send current time to connected users
+      io.to(game.gamePin).emit('countdown', timer--);
 
-    console.log('countdown time')
-      const countdown = () => {
-        // Send current time to connected users
-        io.to(game.gamePin).emit('countdown', timer--);
-  
-        // Stop timer once interval is less than 0, then send next question
-        if (timer < 0) {
-          clearInterval(timerId)
-          console.log('timer ended')
-          io.to(game.gamePin).emit('nextQuestion', {song: nextSong})
-        }
+      // Stop timer once interval is less than 0, then send next question
+      if (timer < 0) {
+        clearInterval(timerId)
+        let answers = game.playlist.slice(game.currentQuestion * 4 + 1, game.currentQuestion * 4 + 4);
+        game.answers.push(Math.floor(Math.random() * 4))
+        answers.splice(game.answers[game.currentQuestion], 0, game.playlist[game.currentQuestion * 4])
+        io.to(game.gamePin).emit('nextQuestion', {song: nextSong, answers: answers.map((song) => song.songName)})
+        games.getGame(gamePin).time = 30
+        let timer = setInterval(() => {
+          if(games.getGame(gamePin)){
+            games.getGame(gamePin).time--
+            if(games.getGame(gamePin).time == 0) clearInterval(timer)
+          } else clearInterval(timer)
+        }, 1000)
       }
+    }
   
-      let timer = 5;
-      // Call countdown once every second
-      timerId = setInterval(countdown, 1000);
+    let timer = 1;
+    // Call countdown once every second
+    let timerId = setInterval(countdown, 1000);
   })
+
+  socket.on('answer', (data) => {
+    const score = games.updatePlayerScore(data.gamePin, data.playerId, data.answer);
+    io.to(data.playerId).emit('score', score)
+  })
+
+  socket.on('endQuestion', (gamePin) => {
+    games.closeTime(gamePin);
+    io.to(gamePin).emit('endQuestion', games.getTopPlayers(gamePin))
+  });
   
 })
 
