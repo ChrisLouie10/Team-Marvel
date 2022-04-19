@@ -1,16 +1,7 @@
 import React from 'react'
 import { List, ListItem, ListItemText, Typography, Divider, Box, Button } from '@mui/material';
 
-export default function Scoreboard(props) {
-
-    const players = [
-        { playerName: "Mark", score: 100 },
-        { playerName: "Jen", score: 200 },
-        { playerName: "Bobby", score: 50 },
-        { playerName: "Kim", score: 150 },
-        { playerName: "Eli", score: 25 }
-    ].sort((a, b) => b.score - a.score);
-
+export default function Scoreboard({players, isHost, handleNextQuestion}) {
 
     return (
         <div>
@@ -57,6 +48,12 @@ export default function Scoreboard(props) {
 
                 </List>
             </div>
+            {isHost ? 
+                <div>
+                    <button onClick={(e) => handleNextQuestion(e)}>Next Question</button>
+                </div>
+                : <></>
+            }
         </div>
 
 
