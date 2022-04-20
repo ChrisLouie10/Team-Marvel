@@ -3,7 +3,8 @@ const bcrypt =  require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { createUser, findUserByUsername, findUserById } = require('../db/dao/userDao');
 const { accountValidation } = require('../lib/validation/userValidation');
-const { userToId, userToObject } = require('../lib/converters/userConverter');
+const { userToObject } = require('../lib/converters/userConverter');
+const modelToId = require('../lib/converters/modelToId');
 const authenticate = require('../lib/passport/authenticate');
 
 
@@ -11,8 +12,8 @@ router.get('/', authenticate, (req, res) => {
   res.status(200).json({user: userToObject(req.user)});
 });
 
-router.get('/:id', authenticate, async (req, res) => {
-  const user = await findUserById(req.params.id);
+router.get('/:username', authenticate, async (req, res) => {
+  const user = await findUserByUsername(req.params.username);
   if(!user) return res.status(404).json({message: 'User not found'});
   return res.status(200).json(userToObject(user));
 })
@@ -55,7 +56,7 @@ router.post('/', async (req, res) => {
     const user = await createUser(data.username, data.password);
 
     // set status code and return the requested data
-    return res.status(201).send(userToId(user));
+    return res.status(201).send(modelToId(user));
   } catch {
     return res.status(500).send({message: 'Failed to create user'});
   }

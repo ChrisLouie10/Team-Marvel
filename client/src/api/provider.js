@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-// const BASE_URL = '/api/users'
+export const getUserById = (id) => {
+  return axios
+    .get(`/api/users/${id}`)
+    .then(response => response)
+    .catch(err => console.log(err));
+}
+
+export const getUserByUsername = (username) => {
+  return axios
+    .get(`/api/users/${username}`)
+    .then(response => response)
+    .catch(err => console.log(err));
+}
 
 export const getUsers = () => {
   return axios
@@ -20,9 +32,14 @@ export const loginAuth = (data) => {
     .then(response => response);
 }
 
-// const getUser = (id) => {
-//   return axios
-//     .get(`${BASE_URL}/${id}`)
-//     .then(response => response)
-//     .catch(err => console.log(err));
-// }
+export const getPlaylistById = (id) => {
+  return axios
+      .get(`/api/playlists/${id}`)
+      .then(response => response);
+}
+
+export const getPlaylists = () => {
+  return axios
+      .get(`/api/playlists`)
+      .then(response => response)
+}

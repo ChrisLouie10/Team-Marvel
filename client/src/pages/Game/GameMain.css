@@ -18,6 +18,13 @@ body {
   background-color: hsl(240, 10%, 100%);
 }
 
+.modal-container {
+  display: flex;
+  margin-top: 2rem;
+  justify-content: center;
+  align-content: center;
+}
+
 .btn-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(auto, 40%));
@@ -68,12 +75,12 @@ body {
   --lightness-offset: 0%;
 }
 
-.songplayer {
+.temp-songplayer {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
   margin-bottom: 1.5em;
   background-color: hsl(173, 44%, 56%);
   color: white;
@@ -81,9 +88,8 @@ body {
 
 .header {
   display: flex;
-  justify-content: center;
   padding: 1em;
-  z-index: 1;
+  z-index: 10;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
@@ -91,4 +97,13 @@ body {
   display: flex;
   justify-content: center;
   flex-grow: 1;
+}
+
+.flex-right-align {
+  margin-left: auto;
+  display: flex;
+}
+
+.button-next-question {
+  margin-left: 30px;
 }
