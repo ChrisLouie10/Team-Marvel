@@ -1,14 +1,15 @@
 import React from 'react'
-import { List, ListItem, ListItemText, Typography, Divider, Box, Button } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, Divider, Box, Button, Dialog } from '@mui/material';
 
-export default function Scoreboard({players, isHost, handleNextQuestion}) {
+export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
 
     return (
-        <div>
+      <Dialog open={show} fullWidth maxWidth='xl'>
+        <div style={{width: '100%', minHeight: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
             <h1>Scoreboard</h1>
-            <div>
+            <div style={{width: '100%'}}>
             {/* list of players and scores in descending order */}
-                <List sx={{ bgcolor: '#5EC1B5', padding: 10}}>
+                <List sx={{ bgcolor: '#5EC1B5', width: '100%', padding: 10}}>
                     {players
                         .map(player => {
                             console.log("This is a player", player);
@@ -55,7 +56,7 @@ export default function Scoreboard({players, isHost, handleNextQuestion}) {
                 : <></>
             }
         </div>
-
+      </Dialog>
 
     );
 }

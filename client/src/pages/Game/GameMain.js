@@ -92,12 +92,12 @@ const GameMain = () => {
 
   return (
     <div className="container">
-      {showScoreboard ? 
-        <Scoreboard 
-          players={topPlayers} 
-          isHost={socket.id == state.hostSocketId} 
+      {showScoreboard &&
+        <Scoreboard show={showScoreboard}
+          players={topPlayers}
+          isHost={socket.id == state.hostSocketId}
           handleNextQuestion={handleNextQuestion} >
-        </Scoreboard> : 
+        </Scoreboard> }
         <>
           <div className="header">
             <div className="score">Score: {score}</div>
@@ -107,17 +107,17 @@ const GameMain = () => {
             </div>
           </div>
           {mp3 && <SongPlayer mp3={mp3}/>}
-          {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div> 
-                    : !mp3 && <div className="temp-songplayer">Waiting for other players</div>} 
-                    
+          {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div>
+                    : !mp3 && <div className="temp-songplayer">Waiting for other players</div>}
+
           <div className="btn-container">
             <button onClick={(e) => handleAnswer(e, 0)} disabled={!canAnswer} className="btn" data-key="1">{answers.answer1}</button>
             <button onClick={(e) => handleAnswer(e, 1)} disabled={!canAnswer} className="btn incorrect" data-key="2">{answers.answer2}</button>
             <button onClick={(e) => handleAnswer(e, 2)} disabled={!canAnswer} className="btn correct" data-key="3">{answers.answer3}</button>
             <button onClick={(e) => handleAnswer(e, 3)} disabled={!canAnswer} className="btn fade" data-key="4">{answers.answer4}</button>
-          </div> 
+          </div>
         </>
-      }
+
     </div>
   )
 }
