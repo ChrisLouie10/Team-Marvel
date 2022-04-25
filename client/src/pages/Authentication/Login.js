@@ -85,6 +85,7 @@ const SignIn = () => {
       </Typography>
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
+          data-testid="username"
           margin="normal"
           required
           fullWidth
