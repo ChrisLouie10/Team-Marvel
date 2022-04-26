@@ -19,7 +19,7 @@ const SignIn = () => {
   const { setAuth, setData } = useAuth();
 
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({message: "no errors"});
 
   const validate = (credentials) => {
     const { error } = loginValidation.validate(credentials, {abortEarly: false});
@@ -42,9 +42,11 @@ const SignIn = () => {
       password: data.get('password'),
     };
 
+    console.log(credentials)
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(credentials);
     setErrors(errors || {})
+    console.log(errors)
     if (errors) return;
 
     // GET credentials from server
@@ -96,6 +98,7 @@ const SignIn = () => {
           autoFocus
         />
         <TextField
+          data-testid="password"
           margin="normal"
           required
           fullWidth
@@ -106,6 +109,7 @@ const SignIn = () => {
           autoComplete="current-password"
         />
         <Button
+          data-testid="submit-btn"
           type="submit"
           fullWidth
           variant="contained"
@@ -113,7 +117,8 @@ const SignIn = () => {
         >
           Sign In
         </Button>
-        { errors.message && <Alert sx={{mt: 2}} severity="error">{errors.message}</Alert>}
+        <Alert data-testid="errors" sx={{mt: 2}} severity="error">{errors.username}</Alert>
+        {/* { errors.message && <Alert data-testid="errors" sx={{mt: 2}} severity="error">{errors.message}</Alert>} */}
       </Box>
     </Box>
     </Container>
