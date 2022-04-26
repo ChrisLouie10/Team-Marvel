@@ -16,11 +16,14 @@ import { loginAuth, getUserByUsername } from '../../api/provider';
 import useAuth from '../../hooks/useAuth';
 
 const SignIn = () => {
-  const { setAuth, setData } = useAuth();
-
+  const { setAuth, setData } = useAuth(); // used to share state between components
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({message: "no errors"});
 
+  const [errors, setErrors] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // validate credentials in the input fields (username & password)
   const validate = (credentials) => {
     const { error } = loginValidation.validate(credentials, {abortEarly: false});
     if (!error) return null;
@@ -34,19 +37,24 @@ const SignIn = () => {
     return errors;
   }
 
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value)
+  }
+  
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     const credentials = {
-      username: data.get('username'),
-      password: data.get('password'),
+      username: username,
+      password: password,
     };
-
-    console.log(credentials)
+    
     // Check for client side errors (i.e., invalid textfield submissions)
     const errors = validate(credentials);
     setErrors(errors || {})
-    console.log(errors)
     if (errors) return;
 
     // GET credentials from server
@@ -85,40 +93,58 @@ const SignIn = () => {
       <Typography variant="h5">
         Sign in
       </Typography>
-      <Box component="form" onSubmit={handleSubmit}>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
-          data-testid="username"
           margin="normal"
           required
           fullWidth
+          value={username}
+          onChange={handleUsernameChange}
+          error={errors.username ? true : false}
+          helperText={errors.username ? errors.username : ""}
           id="username"
           label="Username"
           name="username"
           autoComplete="username"
           autoFocus
+          inputProps={{ "data-testid": "username-textfield" }}
         />
         <TextField
-          data-testid="password"
           margin="normal"
           required
           fullWidth
+          value={password}
+          onChange={handlePasswordChange}
+          error={errors.password ? true : false}
+          helperText={errors.password ? errors.password : ""}
           name="password"
           label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
+          inputProps={{ "data-testid": "password-textfield" }}
         />
         <Button
-          data-testid="submit-btn"
           type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          data-testid="submit-btn"
         >
           Sign In
         </Button>
-        <Alert data-testid="errors" sx={{mt: 2}} severity="error">{errors.username}</Alert>
-        {/* { errors.message && <Alert data-testid="errors" sx={{mt: 2}} severity="error">{errors.message}</Alert>} */}
+        {/* { errors.username && <Alert data-testid="errors-username" sx={{mt: 2}} severity="error">{errors.username}</Alert>}
+        { errors.password && <Alert data-testid="errors-password" sx={{mt: 2}} severity="error">{errors.password}</Alert>} */}
+        { errors.message 
+          && 
+          <Alert
+            sx={{mt: 2}} 
+            severity="error"
+            data-testid="error-server-alertbox"
+            >
+              {errors.message}
+          </Alert>
+        }
       </Box>
     </Box>
     </Container>
