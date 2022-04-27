@@ -107,7 +107,6 @@ const SignIn = () => {
           name="username"
           autoComplete="username"
           autoFocus
-          inputProps={{ "data-testid": "username-textfield" }}
         />
         <TextField
           margin="normal"
@@ -117,11 +116,11 @@ const SignIn = () => {
           onChange={handlePasswordChange}
           error={errors.password ? true : false}
           helperText={errors.password ? errors.password : ""}
+          id="password"
           name="password"
           label="Password"
           type="password"
-          id="password"
-          autoComplete="current-password"
+          autoComplete="password"
           inputProps={{ "data-testid": "password-textfield" }}
         />
         <Button
@@ -133,8 +132,6 @@ const SignIn = () => {
         >
           Sign In
         </Button>
-        {/* { errors.username && <Alert data-testid="errors-username" sx={{mt: 2}} severity="error">{errors.username}</Alert>}
-        { errors.password && <Alert data-testid="errors-password" sx={{mt: 2}} severity="error">{errors.password}</Alert>} */}
         { errors.message 
           && 
           <Alert

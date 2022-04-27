@@ -10,11 +10,11 @@ describe("<Login />", () => {
   
   // it keyword describes an event in this component (a test)
   it("Should render helperText for a password length less than minimum", () => {
-    const { container, getByText, getByTestId } = render(<Router><SignIn /></Router>)
+    const { container, getByText, getByRole, getByLabelText } = render(<Router><SignIn /></Router>)
 
-    const username = getByTestId("username-textfield");
-    const password = getByTestId("password-textfield");
-    const submit = getByTestId("submit-btn");
+    const username = getByRole('textbox', { name: /username/i });
+    const password = getByLabelText(/password/i);
+    const submit = getByRole('button', { name: /sign in/i });
 
     fireEvent.change(username, { target: { value: "validusername" } });
     fireEvent.change(password, { target: { value: "evil" } });
@@ -24,11 +24,11 @@ describe("<Login />", () => {
   })
 
   it("Should render helperText for an empty password", () => {
-    const { container, getByText, getByTestId } = render(<Router><SignIn /></Router>)
+    const { container, getByText, getByRole, getByLabelText } = render(<Router><SignIn /></Router>)
 
-    const username = getByTestId("username-textfield");
-    const password = getByTestId("password-textfield");
-    const submit = getByTestId("submit-btn");
+    const username = getByRole('textbox', { name: /username/i });
+    const password = getByLabelText(/password/i);
+    const submit = getByRole('button', { name: /sign in/i });
 
     fireEvent.change(username, { target: { value: "validusername" } });
     fireEvent.change(password, { target: { value: "" } });
@@ -38,11 +38,11 @@ describe("<Login />", () => {
   })
 
   it("Should render helperText for a password length more than the maximum", () => {
-    const { container, getByText, getByTestId } = render(<Router><SignIn /></Router>)
+    const { container, getByText, getByRole, getByLabelText } = render(<Router><SignIn /></Router>)
 
-    const username = getByTestId("username-textfield");
-    const password = getByTestId("password-textfield");
-    const submit = getByTestId("submit-btn");
+    const username = getByRole('textbox', { name: /username/i });
+    const password = getByLabelText(/password/i);
+    const submit = getByRole('button', { name: /sign in/i });
 
     fireEvent.change(username, { target: { value: "validusername" } });
     fireEvent.change(password, 
