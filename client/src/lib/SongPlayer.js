@@ -38,7 +38,7 @@ const SongPlayer = (props) => {
       setSoundwave(new SiriWave({
         container: soundwaveContainer.current,
         width: soundwaveContainer.current.offsetWidth,
-        height: 220,
+        height: 212,
         style: 'ios9',
         speed: .06,
         amplitude: 2,
@@ -82,17 +82,14 @@ const SongPlayer = (props) => {
 
   return (
     <div className="songplayer-container">
-    
       <p className="timeLeft">{timeLeft}</p>
       {/* moving progress bar in background */}
       <div className={`progress-bar${isPlaying ? ' animate-width' : ''}`}
         style={{width: `${isPlaying ? '100%' : '0'}`,
                 backgroundColor: '#44ada2'}}>
-        
         {/* soundwave and countdown text */}
         <div className="songplayer" ref={soundwaveContainer}>
         </div>
-
       </div>
     </div>
   );
