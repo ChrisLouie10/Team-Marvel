@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
 import SiriWave from "siriwave";
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
 import './SongPlayer.css'
 
@@ -15,7 +15,6 @@ const SongPlayer = (props) => {
 
   const [sound, setSound] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
-
 
   function stopPreviousSong() {
     // to restart progress bar if it's still running
@@ -36,9 +35,9 @@ const SongPlayer = (props) => {
       // start new song
       setTimeLeft(30)
       setSoundwave(new SiriWave({
-        container: soundwaveContainer.current,
+        container: soundwaveContainer.current.offsetParent,
         width: soundwaveContainer.current.offsetWidth,
-        height: 212,
+        height: soundwaveContainer.current.offsetParent.offsetHeight,
         style: 'ios9',
         speed: .06,
         amplitude: 2,
@@ -53,7 +52,8 @@ const SongPlayer = (props) => {
       )
       setSound(new Howl({
         src: [props.mp3],
-        html5: true
+        html5: true,
+        volume: 0.1,
         })
       )
       setIsPlaying(true)
@@ -63,6 +63,7 @@ const SongPlayer = (props) => {
   // play whenever a new song is set
   useEffect(() => {
     if (sound) sound.play()
+    Howler.volume(.05);
   }, [sound])
 
   // manage timer
@@ -88,8 +89,7 @@ const SongPlayer = (props) => {
         style={{width: `${isPlaying ? '100%' : '0'}`,
                 backgroundColor: '#44ada2'}}>
         {/* soundwave and countdown text */}
-        <div className="songplayer" ref={soundwaveContainer}>
-        </div>
+        <div className="songplayer" ref={soundwaveContainer}></div>
       </div>
     </div>
   );
