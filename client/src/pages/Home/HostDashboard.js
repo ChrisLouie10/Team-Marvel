@@ -16,11 +16,14 @@ const HostDashboard = () => {
   const navigate = useNavigate();
   const [playlists, setPlaylists] = useState([])
   
-  useEffect(async () => {
+  useEffect(() => {
     socket.off()  // removes current listeners
 
-    const playlists = await getPlaylists().then(response => response.data)
-    setPlaylists(playlists)
+    const fetchData = async () => {
+      const playlists = await getPlaylists().then(response => response.data)
+      setPlaylists(playlists)
+    }
+    fetchData()
 
     // listen for lobby information once created
     socket.on('lobbyData', (data) => {
