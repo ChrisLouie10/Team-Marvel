@@ -14,7 +14,6 @@ function gameToObject(game) {
 
 function gameToPlayerScore(game, playerId) {
   let obj = {};
-  console.log(game.players)
   const player = game.players.filter((player) => player.playerId = playerId)[0];
   obj.id = game._id;
   obj.playlistName = game.playlistName;
