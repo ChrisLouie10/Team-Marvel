@@ -9,7 +9,7 @@ const authenticate = require('../lib/passport/authenticate');
 
 
 router.get('/', authenticate, (req, res) => {
-  res.status(200).json({user: userToObject(req.user)});
+  res.status(200).json(userToObject(req.user));
 });
 
 router.get('/:username', authenticate, async (req, res) => {
@@ -52,7 +52,6 @@ router.post('/', async (req, res) => {
     // Run the processes that need to be done.
     const salt = await bcrypt.genSalt();
     data.password = await bcrypt.hash(data.password, salt);
-    await console.log(data.password)
     const user = await createUser(data.username, data.password);
 
     // set status code and return the requested data
