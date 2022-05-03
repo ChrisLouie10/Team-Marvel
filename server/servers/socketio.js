@@ -56,7 +56,8 @@ io.on('connection', (socket) => {
       gamePin: gamePin, 
       hostSocketId: socket.id, 
       gameLive: false,
-      playlist: playlistToObject(playlist).songs, 
+      playlist: playlistToObject(playlist).songs,
+      playlistName: playlistToObject(playlist).playlistName, 
       answers: [],
       currentQuestion: -1, 
       playersAnswered: 0,
@@ -94,6 +95,31 @@ io.on('connection', (socket) => {
 
     // connect socket to room
     socket.join(gamePin);
+
+    // update lobby for users in lobby
+    io.to(gamePin).emit('lobbyData', game)
+  })
+
+  socket.on('playerLeftGame', () => {
+    console.log('a user left a game')
+
+    // remove user from live game
+    const game = games.removePlayer(socket.id)
+    if (!game) {
+      console.log("was not in a game")
+      return
+    } else console.log("player removed from live game")
+
+    // set game pin for clarity
+    const gamePin = game.gamePin
+
+    // if the host disconnected, end the game
+    if (game.hostSocketId === socket.id) {
+      console.log("game removed from live games")
+      io.to(gamePin).emit('endGame', {message: "host has disconnected"})
+      games.removeGame(gamePin)
+      return
+    }
 
     // update lobby for users in lobby
     io.to(gamePin).emit('lobbyData', game)
@@ -142,7 +168,7 @@ io.on('connection', (socket) => {
       }
     }
   
-    let timer = 1;
+    let timer = 3;
     // Call countdown once every second
     let timerId = setInterval(countdown, 1000);
   })
