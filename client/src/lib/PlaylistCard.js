@@ -18,7 +18,11 @@ export default function PlaylistCard(props) {
 
   const createGame = () => {
     // request server to create game
-    socket.emit('createGame', {hostName: data.username, hostId: data.id, playlistId: props.id})
+    socket.emit('createGame', 
+      { hostName: data.username, 
+        hostId: data.id, 
+        playlistId: props.id
+      })
   }
 
   return (
