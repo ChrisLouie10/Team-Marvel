@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { List, ListItem, ListItemText, Typography, Divider, Box, Button, Dialog } from '@mui/material';
 
 export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
+    const [pressed, setPressed] = useState(false)
 
     return (
       <Dialog open={show} fullWidth maxWidth='xl'>
@@ -51,7 +52,7 @@ export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
             </div>
             {isHost ? 
                 <div>
-                    <button onClick={(e) => handleNextQuestion(e)}>Next Question</button>
+                    <button disabled={pressed} id="next-question" onClick={(e) => {handleNextQuestion(e); setPressed(true)}}>Next Question</button>
                 </div>
                 : <></>
             }

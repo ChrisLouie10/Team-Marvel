@@ -52,7 +52,6 @@ router.post('/', async (req, res) => {
     // Run the processes that need to be done.
     const salt = await bcrypt.genSalt();
     data.password = await bcrypt.hash(data.password, salt);
-    await console.log(data.password)
     const user = await createUser(data.username, data.password);
 
     // set status code and return the requested data
