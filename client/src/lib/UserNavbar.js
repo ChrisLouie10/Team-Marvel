@@ -32,7 +32,7 @@ const UserNavbar = (props) => {
                     onClick={() => navigate("/user/join", { replace: true })}>Join</Button>
                 <Button sx={{color: 'teal'}} disabled={props.tab === 'host' ? true : false}
                     onClick={() => navigate("/user/host", { replace: true })}>Host</Button>
-                <Button sx={{color: 'teal'}} onClick={() => console.log("clicked Game history")}>Game history</Button>
+                <Button sx={{color: 'teal'}} onClick={() => navigate("/user/history", { replace: true })}>Game history</Button>
             </Box>
 
             {/* right aligned */}
