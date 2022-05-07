@@ -12,18 +12,6 @@ function gameToObject(game) {
   return obj;
 }
 
-function gameToPlayerScore(game, playerId) {
-  let obj = {};
-  const player = game.players.filter((player) => player.playerId = playerId)[0];
-  obj.id = game._id;
-  obj.playlistName = game.playlistName;
-  obj.playerName = player.playerName;
-  obj.score = player.score;
-  obj.date = game.date;
-  return obj
-}
-
 module.exports = {
-  gameToObject,
-  gameToPlayerScore
+  gameToObject
 }
