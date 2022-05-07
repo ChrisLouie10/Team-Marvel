@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { List, ListItem, ListItemText, Typography, Divider, Box, Button, Dialog } from '@mui/material';
 
-export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
+export default function Scoreboard({players, isHost, handleNextQuestion,show, handleClose}) {
     const [pressed, setPressed] = useState(false)
 
     return (
-      <Dialog open={show} fullWidth maxWidth='xl'>
+      <Dialog open={show} fullWidth maxWidth='xl' onClose={handleClose}>
         <div style={{width: '100%', minHeight: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
             <h1>Scoreboard</h1>
             <div style={{width: '100%'}}>
