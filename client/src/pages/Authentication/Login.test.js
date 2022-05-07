@@ -5,6 +5,49 @@ import '@testing-library/jest-dom'
 
 import SignIn from './Login'
 
+// mock API's login authentication functions, to avoid calling real API
+const provider = require('../../api/provider');
+jest.mock('../../api/provider');
+beforeEach(() => {
+  /*
+   instead of calling functions defined in provider.js,
+   the real code will be ignored and these hardcoded values will be returned
+  */
+  provider.loginAuth.mockResolvedValue({
+    data: {
+      success: true,
+      token: 'abc'
+    },
+  });
+
+  provider.getUserByUsername.mockResolvedValue({
+    data: {
+      id: 'Marvel-1',
+      username: 'Marvel'
+    }
+  })
+})
+
+// mock data setter functions, because real ones were causing errors (only during testing)
+const mockSetData = jest.fn()
+const mockSetAuth = jest.fn()
+jest.mock('../../hooks/useAuth', () => {
+  const useAuth = () => ({
+    // when useAuth is destructured to get setAuth & setData in Login, these mock functions will be received instead
+    setAuth: mockSetAuth,
+    setData: mockSetData
+  })
+  return useAuth;
+});
+
+// mock the navigation function, to know if it gets called
+const mockUseNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockUseNavigate // replace original function with mock
+}));
+
+
 // describe allows you to describe a test suite under a particular theme of choosing
 describe('<Login/>', () => {
   var username = null;
@@ -84,6 +127,29 @@ describe('<Login/>', () => {
       expect(screen
         .getByText('"Username" length must be less than or equal to 32 characters long'))
         .toBeInTheDocument()
+    })
+  })
+
+  describe('Navigation from Login to user Dashboard', () => {
+
+    // makes sure navigation is working by checking to see if the navigation function got called
+    it("calls the navigation function after a successful login", async () => {
+      // simulate a valid login
+      fireEvent.change(username, { target: { value: "Marvel" } });
+      fireEvent.change(password, { target: { value: "Marvel" } });
+      fireEvent.click(submit);
+
+      // wait for functions in Login's submit handler to finish running
+      await new Promise((r) => setTimeout(r, 2000));
+
+      // check if functions before navigation are being called
+      // expect(mockSetData).toHaveBeenCalled();
+      // expect(mockSetAuth).toHaveBeenCalled();
+
+      // make sure it was called, and with correct argument
+      expect(mockUseNavigate).toHaveBeenCalled();
+      // Checks if the list of args has the correct path. Other args in the list don't need to be strictly checked
+      expect(mockUseNavigate.mock.calls[0]).toContain('/user/host')
     })
   })
 })
