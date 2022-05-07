@@ -4,7 +4,8 @@ const { customAlphabet } = require('nanoid')
 const nanoid = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10)
 const { findPlaylistById } = require('../db/dao/playlistDao');
 const { playlistToObject } = require('../lib/converters/playlistConverter');
-const shuffleArray = require('./utils/shuffleArray'); 
+const { createGame } = require('../db/dao/gameDao');
+const shuffleArray = require('./utils/shuffleArray');
 
 // import classes
 const {LiveGames} = require('./utils/liveGames');
@@ -15,24 +16,20 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
 
   socket.on('disconnect', async () => {
-    console.log("a user disconnected")
 
     // remove user from live game
     const game = games.removePlayer(socket.id)
     if (!game) {
-      console.log("was not in a game")
       return
-    } else console.log("player removed from live game")
+    } 
 
     // set game pin for clarity
     const gamePin = game.gamePin
 
     // if the host disconnected, end the game
     if (game.hostSocketId === socket.id) {
-      console.log("game removed from live games")
       io.to(gamePin).emit('endGame', {message: "host has disconnected"})
       games.removeGame(gamePin)
       return
@@ -49,20 +46,23 @@ io.on('connection', (socket) => {
     // set data
     const hostName = data.hostName
     const hostId = data.hostId
-    const playlist = await findPlaylistById(data.playlistId)
+    const playlist = playlistToObject(await findPlaylistById(data.playlistId))
+
+    if(!playlist.songs || playlist.songs.length < 20) return
 
     // create a live game in the database with game data
     const game = games.addGame({ 
       gamePin: gamePin, 
       hostSocketId: socket.id, 
       gameLive: false,
-      playlist: playlistToObject(playlist).songs,
-      playlistName: playlistToObject(playlist).playlistName, 
+      playlistName: playlist.playlistName,
+      playlist: playlist.songs, 
       answers: [],
       currentQuestion: -1, 
       playersAnswered: 0,
       playersConnected: 0,
       time: 0,
+      date: Date.now(),
       players: [{
         playerSocketId: socket.id, 
         playerId: hostId, 
@@ -71,9 +71,8 @@ io.on('connection', (socket) => {
       }]
     })
     if (!game) {
-      console.log("Game not created")
       return
-    } else console.log("Game created")
+    }
 
     // connect socket to room
     socket.join(gamePin);
@@ -88,10 +87,9 @@ io.on('connection', (socket) => {
     // when user joins a game, add them to the game's players
     const game = games.addPlayer(gamePin, {playerSocketId: socket.id, playerId: data.playerId, playerName: data.playerName, score: 0})
     if (!game) {
-      console.log("Game not found")
       socket.emit('gameNotFound')
       return
-    } else console.log("Game found")
+    }
 
     // connect socket to room
     socket.join(gamePin);
@@ -126,7 +124,6 @@ io.on('connection', (socket) => {
   })
 
   socket.on('startGame', async (data) => {
-    console.log('starting game')
     const game = games.setLiveGame(data.gamePin, true)
 
     game.playlist = shuffleArray(game.playlist);
@@ -134,7 +131,6 @@ io.on('connection', (socket) => {
   })
 
   socket.on('connected', (data) => {
-    console.log('player connected')
     const game = games.setPlayersConnected(data.gamePin, "add")
     // when all players connect, begin the countdown to next question
     if (game.playersConnected == game.players.length) {
@@ -142,10 +138,15 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('nextQuestion', (gamePin) => {
+  socket.on('nextQuestion', async (gamePin) => {
     // set up the next song to be sent
     const game = games.getGame(gamePin)
     game.currentQuestion++
+    if(game.currentQuestion > 5) {
+      await createGame(game);
+      io.to(game.gamePin).emit('endGame')
+      return
+    }
     const nextSong = game.playlist[game.currentQuestion * 4].songUrl
     const countdown = () => {
       // Send current time to connected users
@@ -153,18 +154,18 @@ io.on('connection', (socket) => {
 
       // Stop timer once interval is less than 0, then send next question
       if (timer < 0) {
-        clearInterval(timerId)
+        clearInterval(timerId);
         let answers = game.playlist.slice(game.currentQuestion * 4 + 1, game.currentQuestion * 4 + 4);
-        game.answers.push(Math.floor(Math.random() * 4))
-        answers.splice(game.answers[game.currentQuestion], 0, game.playlist[game.currentQuestion * 4])
-        io.to(game.gamePin).emit('nextQuestion', {song: nextSong, answers: answers.map((song) => song.songName)})
-        games.getGame(gamePin).time = 30
-        let timer = setInterval(() => {
-          if(games.getGame(gamePin)){
-            games.getGame(gamePin).time--
-            if(games.getGame(gamePin).time == 0) clearInterval(timer)
-          } else clearInterval(timer)
-        }, 1000)
+        game.answers.push(Math.floor(Math.random() * 4));
+        answers.splice(game.answers[game.currentQuestion], 0, game.playlist[game.currentQuestion * 4]);
+        io.to(game.gamePin).emit('nextQuestion', {song: nextSong, answers: answers.map((song) => song.songName)});
+        if(game){
+          game.time = 30;
+          let timer = setInterval(() => {
+            game.time--;
+            if(game.time == 0) clearInterval(timer);
+          }, 1000);
+        }
       }
     }
   

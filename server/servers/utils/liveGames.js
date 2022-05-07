@@ -32,14 +32,11 @@ class LiveGames {
   }
 
   setPlayersConnected(gamePin, cmd) {
-    console.log("add or remove player")
     var game = this.getGame(gamePin);
     if (cmd == "add") {
-      console.log('adding')
       game.playersConnected += 1;
     }
     else if(cmd == "remove") {
-      console.log('removing')
       game.playersConnected -= 1;
     }
     return game;
@@ -51,7 +48,6 @@ class LiveGames {
     if(game) {
       const player = game.players.find(player => player.playerSocketId == playerId)
       if(player) {
-        console.log('current answer: ' + answer + '\t\treal answer: ' + game.answers[game.currentQuestion])
         if(answer == game.answers[game.currentQuestion]) {
           player.score += game.time * 33;
         }
