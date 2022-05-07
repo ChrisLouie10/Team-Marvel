@@ -27,7 +27,7 @@ const App = () => {
           <Route element={<RequireAuth allowedRoles={['auth']}/>}>
             <Route path="/user/host" element={<HostDashboard/>}/>
             <Route path="/user/join" element={<UserJoin/>} />
-            <Route path="/user/history" element={<GameHistory/>} />
+            <Route path="/user/history" element={<GameHistory/>}/>
           </Route>
 
           {/* Guests and Authorized users can access */}
