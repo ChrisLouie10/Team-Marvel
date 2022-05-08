@@ -9,7 +9,7 @@ const authenticate = require('../lib/passport/authenticate');
 
 
 router.get('/', authenticate, (req, res) => {
-  res.status(200).json({user: userToObject(req.user)});
+  res.status(200).json(userToObject(req.user));
 });
 
 router.get('/:username', authenticate, async (req, res) => {
