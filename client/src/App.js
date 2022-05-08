@@ -11,6 +11,7 @@ import SpotifyAPI from './components/SpotifyAPI';
 import RequireAuth from './components/RequireAuth';
 import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
+import GameHistory from './pages/Home/GameHistory';
 
 const App = () => {
     const [userContext, setUserContext] = useState()
@@ -26,6 +27,7 @@ const App = () => {
           <Route element={<RequireAuth allowedRoles={['auth']}/>}>
             <Route path="/user/host" element={<HostDashboard/>}/>
             <Route path="/user/join" element={<UserJoin/>} />
+            <Route path="/user/history" element={<GameHistory/>}/>
           </Route>
 
           {/* Guests and Authorized users can access */}

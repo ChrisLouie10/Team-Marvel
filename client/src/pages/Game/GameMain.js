@@ -1,7 +1,7 @@
 import React from 'react'
 import './GameMain.css'
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Howl } from 'howler'
 import socket from '../../components/Socket'
@@ -24,6 +24,8 @@ const GameMain = () => {
   const [canAnswer, setCanAnswer] = useState(false);
   const [score, setScore] = useState(0);
   const [topPlayers, setTopPlayers] = useState([]);
+  const navigate = useNavigate();
+  const [gameOver, setGameOver] = useState(false)
   var howl = null
 
   // when question changes, load in answers & song
@@ -70,6 +72,13 @@ const GameMain = () => {
       setShowScoreboard(true);
     })
 
+    socket.on('endGame', () => {
+      setGameOver(true)
+      setTimeout(() => {
+        navigate("/user/host", { replace: true });
+      }, 15000);
+    })
+
   }, []);
 
   // For now, we manually set data, but when sockets are implemented, it will tell us when to update the data and send in data
@@ -81,7 +90,6 @@ const GameMain = () => {
 
   const handleNextQuestion = (event) => {
     socket.emit('nextQuestion', state.gamePin);
-    console.log('working')
     event.preventDefault();
   }
 
@@ -96,7 +104,8 @@ const GameMain = () => {
         <Scoreboard show={showScoreboard}
           players={topPlayers}
           isHost={socket.id == state.hostSocketId}
-          handleNextQuestion={handleNextQuestion} >
+          handleNextQuestion={handleNextQuestion}
+          gameOver={gameOver} >
         </Scoreboard> }
         <>
           <div className="header">

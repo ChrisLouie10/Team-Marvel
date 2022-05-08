@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useState , useEffect} from 'react'
 import { List, ListItem, ListItemText, Typography, Divider, Box, Button, Dialog } from '@mui/material';
 
-export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
+export default function Scoreboard({players, isHost, handleNextQuestion,show, handleClose, gameOver}) {
+    const [pressed, setPressed] = useState(false)
+    const [timeLeft, setTimeLeft] = useState(15)
 
+    useEffect(() => {
+      let myInterval = setInterval(() => {
+            if (gameOver && timeLeft > 0) {
+                setTimeLeft(timeLeft - 1);
+            }
+        }, 1000)
+        return ()=> {
+            clearInterval(myInterval);
+          };
+    });
+    
     return (
-      <Dialog open={show} fullWidth maxWidth='xl'>
+      <Dialog open={show} fullWidth maxWidth='xl' onClose={handleClose}>
         <div style={{width: '100%', minHeight: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-            <h1>Scoreboard</h1>
+            {gameOver ? <h1>Game Over</h1> : <h1>Scoreboard</h1>}
             <div style={{width: '100%'}}>
             {/* list of players and scores in descending order */}
                 <List sx={{ bgcolor: '#5EC1B5', width: '100%', padding: 10}}>
@@ -51,9 +64,12 @@ export default function Scoreboard({players, isHost, handleNextQuestion,show}) {
             </div>
             {isHost ? 
                 <div>
-                    <button onClick={(e) => handleNextQuestion(e)}>Next Question</button>
+                    <button disabled={pressed} id="next-question" onClick={(e) => {handleNextQuestion(e); setPressed(true)}}>Next Question</button>
                 </div>
                 : <></>
+            }
+            {
+                gameOver ? <h3>Ending in {timeLeft}...</h3> : <></>
             }
         </div>
       </Dialog>
