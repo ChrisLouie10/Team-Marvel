@@ -25,6 +25,7 @@ const GameMain = () => {
   const [score, setScore] = useState(0);
   const [topPlayers, setTopPlayers] = useState([]);
   const navigate = useNavigate();
+  const [gameOver, setGameOver] = useState(false)
   var howl = null
 
   // when question changes, load in answers & song
@@ -72,7 +73,10 @@ const GameMain = () => {
     })
 
     socket.on('endGame', () => {
-      navigate("/user/host", { replace: true });
+      setGameOver(true)
+      setTimeout(() => {
+        navigate("/user/host", { replace: true });
+      }, 15000);
     })
 
   }, []);
@@ -100,7 +104,8 @@ const GameMain = () => {
         <Scoreboard show={showScoreboard}
           players={topPlayers}
           isHost={socket.id == state.hostSocketId}
-          handleNextQuestion={handleNextQuestion} >
+          handleNextQuestion={handleNextQuestion}
+          gameOver={gameOver} >
         </Scoreboard> }
         <>
           <div className="header">
