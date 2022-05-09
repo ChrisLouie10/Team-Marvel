@@ -83,7 +83,11 @@ const Search = (props) => {
 
   return(
     <>
-      <SongPlayer mp3={song.mp3}/>
+      {/* hide songplayer, because it's not showing up anyway due to a bug
+        it'll still play music, but it can't be seen */}
+      <div style={{visibility:'hidden'}}>
+        <SongPlayer mp3={song.mp3}/>
+      </div>
 
       <div>
         {/* choose endpoint */}
