@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 
 import useAuth from '../../hooks/useAuth';
 import socket from '../../components/Socket';
@@ -49,12 +50,13 @@ const GuestJoin = () => {
   }
 
   return (
+    <Container maxWidth="xs">
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      mt: 8
       }}>
+      <Box component="form" noValidate sx={{ mt: 1 }}>
         <Typography variant="h5" color="inherit" sx={{mb: 2}}>
           Play Anonymously
         </Typography>
@@ -90,7 +92,9 @@ const GuestJoin = () => {
         >
           Join Game
         </Button>
+      </Box>
     </Box>
+    </Container>
   )
 }
 
