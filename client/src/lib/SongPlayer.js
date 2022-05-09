@@ -54,7 +54,7 @@ const SongPlayer = (props) => {
       setSound(new Howl({
         src: [props.mp3],
         html5: true,
-        volume: 0.1,
+        volume: 1,
         })
       )
       setIsPlaying(true)
