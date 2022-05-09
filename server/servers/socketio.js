@@ -142,7 +142,7 @@ io.on('connection', (socket) => {
     // set up the next song to be sent
     const game = games.getGame(gamePin)
     game.currentQuestion++
-    if(game.currentQuestion > 5) {
+    if(game.currentQuestion >= 5) {
       await createGame(game);
       io.to(game.gamePin).emit('endGame')
       return
