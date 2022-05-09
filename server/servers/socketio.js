@@ -158,7 +158,11 @@ io.on('connection', (socket) => {
         let answers = game.playlist.slice(game.currentQuestion * 4 + 1, game.currentQuestion * 4 + 4);
         game.answers.push(Math.floor(Math.random() * 4));
         answers.splice(game.answers[game.currentQuestion], 0, game.playlist[game.currentQuestion * 4]);
-        io.to(game.gamePin).emit('nextQuestion', {song: nextSong, answers: answers.map((song) => song.songName)});
+        io.to(game.gamePin).emit('nextQuestion', {
+          song: nextSong, 
+          answers: answers.map((song) => song.songName),
+          answer: game.answers[game.currentQuestion]
+        });
         if(game){
           game.time = 30;
           let timer = setInterval(() => {
