@@ -43,6 +43,8 @@ const Search = (props) => {
   const [searchResults, setSearchResults] = useState([]) // either array of playlist objects or song objects
 
   const searchSpotify = (event) => {
+    if (endpointParam == '') return;
+
     setLoadingData(true)
     searchFunctions[endpoint].function(endpointParam)
       .then(data =>
