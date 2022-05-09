@@ -31,8 +31,8 @@ const SongPlayer = (props) => {
   useEffect(() => {
     (async () => {
       await stopPreviousSong() // prevent starting up new song until after previous song's states are reset
-      if (props.stop) return
-      
+      if (props.gameOver) return
+
       // start new song
       setTimeLeft(30)
       setSoundwave(new SiriWave({
@@ -59,7 +59,7 @@ const SongPlayer = (props) => {
       )
       setIsPlaying(true)
     })();
-  }, [props.mp3, props.stop])
+  }, [props.mp3, props.gameOver])
 
   // play whenever a new song is set
   useEffect(() => {

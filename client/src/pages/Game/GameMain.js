@@ -3,7 +3,6 @@ import './GameMain.css'
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Howl } from 'howler'
 import socket from '../../components/Socket'
 import SongPlayer from '../../lib/SongPlayer'
 import GameModal from './GameModal'
@@ -44,7 +43,6 @@ const GameMain = () => {
       // open modal when timer comes in
       setOpenModal(true)
 
-      console.log('setting timer')
       setTimer(timer)
     })
 
@@ -136,7 +134,7 @@ const GameMain = () => {
               {socket.id == state.hostSocketId ? <button onClick={(e) => handleEndQuestion(e)} className="button-next-question">End Question</button> : <></>}
             </div>
           </div>
-          {mp3 && <SongPlayer mp3={mp3} stop={gameOver}/>}
+          {mp3 && <SongPlayer mp3={mp3} gameOver={gameOver}/>}
           {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div>
                     : !mp3 && <div className="temp-songplayer">Waiting for other players</div>}
 
