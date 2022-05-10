@@ -21,7 +21,6 @@ To Deploy the application:
 2. Build the React App and move it to the server folder
    a. change directory to the client folder (`cd client`)
    b. run `npm run build`
-   c. Move the build folder that was created into the server folder
 3. Change directory to the server folder (`cd ../server`)  
 4. heroku login
 5. heroku container:login (requires you to login to docker)
