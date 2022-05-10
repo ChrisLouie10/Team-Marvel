@@ -56,7 +56,7 @@ const GuestJoin = () => {
       flexDirection: 'column',
       alignItems: 'center',
       }}>
-      <Box component="form" noValidate sx={{ mt: 1 }}>
+      <Box>
         <Typography variant="h5" color="inherit" sx={{mb: 2}}>
           Play Anonymously
         </Typography>
