@@ -60,7 +60,7 @@ const GameHistory = () => {
                                                 {game.playlistName}</Typography>}</TableCell>
 
                                             <TableCell align="left">{<Typography variant='body1' color='teal'>
-                                                {moment(new Date(game.date)).format("DD/MM/YY")}</Typography>}</TableCell>
+                                                {moment(new Date(game.date)).format("MM/DD/YY")}</Typography>}</TableCell>
 
                                             <TableCell align="left">{<Typography variant='body1' color='teal'>
                                                 {moment(new Date(game.date)).format("hh:mm a")}</Typography>}</TableCell>

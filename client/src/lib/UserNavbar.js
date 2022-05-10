@@ -1,11 +1,10 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-
 import Box from '@mui/material/Box';
-
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import logo from'../styles/music-logo.png'
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,12 +19,13 @@ const UserNavbar = (props) => {
         position="static"
         color="inherit"
         elevation={0}
-        sx={{display: 'flex', color: 'teal'}}
+        sx={{display: 'flex'}}
         >
         <Toolbar style={{display:'flex', justifyContent:"space-between", width:'100%'}}>
             {/* left aligned elements */}
             <Box display='flex' flexGrow={1}>
-                <Typography variant="h4" noWrap sx={{mr: 2}}>
+                <img src={logo} width="30px"/>
+                <Typography variant="h4" noWrap sx={{mx: 2}}>
                   Hearo
                 </Typography>
                 <Button sx={{color: 'teal'}} disabled={props.tab === 'join' ? true : false}
