@@ -81,18 +81,11 @@ const SignIn = () => {
     <Container maxWidth="xs">
     <Box
       sx={{
-        marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
     >
-      <Avatar sx={{ m: 1, bgcolor: 'green' }}>
-        <MusicNoteIcon />
-      </Avatar>
-      <Typography variant="h5">
-        Sign in
-      </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
