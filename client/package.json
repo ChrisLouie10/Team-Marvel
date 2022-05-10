@@ -8,6 +8,7 @@
     "@mui/icons-material": "^5.4.4",
     "@mui/material": "^5.4.4",
     "axios": "^0.26.0",
+    "css-prefers-color-scheme": "^6.0.3",
     "howler": "^2.2.3",
     "jest": "^28.0.0",
     "joi": "^17.6.0",
