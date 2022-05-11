@@ -15,6 +15,8 @@ import { registerValidation } from "../../validation/registerValidation";
 
 const Register = () => {
   const [errors, setErrors] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const validate = (newUser) => {
     const { error } = registerValidation.validate(newUser, {abortEarly: false});
@@ -27,6 +29,14 @@ const Register = () => {
     }, {});
 
     return errors;
+  }
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value)
+  }
+  
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
   }
 
   const handleSubmit = (event) => {
@@ -55,25 +65,20 @@ const Register = () => {
     <Container maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'green' }}>
-          <MusicNoteIcon />
-        </Avatar>
-        <Typography variant="h5">
-          Sign Up
-        </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            error={errors.username ? true : false}
-            helperText={errors.username ? errors.username : ""}
             margin="normal"
             required
             fullWidth
+            value={username}
+            onChange={handleUsernameChange}
+            error={errors.username ? true : false}
+            helperText={errors.username ? errors.username : ""}
             id="username"
             label="Username"
             name="username"
@@ -81,11 +86,13 @@ const Register = () => {
             autoFocus
           />
           <TextField
-            error={errors.password ? true : false}
-            helperText={errors.password ? errors.password : ""}
             margin="normal"
             required
             fullWidth
+            value={password}
+            onChange={handlePasswordChange}
+            error={errors.password ? true : false}
+            helperText={errors.password ? errors.password : ""}
             name="password"
             label="Password"
             type="password"
@@ -96,7 +103,7 @@ const Register = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 3 }}
+            sx={{ mt: 3, mb: 2 }}
           >
             Sign Up
           </Button>

@@ -43,3 +43,9 @@ export const getPlaylists = () => {
       .get(`/api/playlists`)
       .then(response => response)
 }
+
+export const getGameHistoryByPlayerId = (id) => {
+  return axios 
+      .get(`/api/games/player/${id}`)
+      .then(response => response);
+}

@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { TextField } from '@mui/material';
 
 import SpotifyPlaylistCard from '../lib/SpotifyPlaylistCard'
 import SongPlayer from '../lib/SongPlayer'
@@ -31,7 +32,7 @@ const Search = (props) => {
   })
 
   const [endpoint, setEndpoint] = useState('searchPlaylists') // name of api function
-  const [endpointParam, setEndpointParam] = useState('') // param value needed in api call
+  const [endpointParam, setEndpointParam] = useState('instrumental') // param value needed in api call
 
   const changeEndpoint = (event) => {
     let functionName = event.target.value
@@ -43,6 +44,8 @@ const Search = (props) => {
   const [searchResults, setSearchResults] = useState([]) // either array of playlist objects or song objects
 
   const searchSpotify = (event) => {
+    if (endpointParam == '') return;
+
     setLoadingData(true)
     searchFunctions[endpoint].function(endpointParam)
       .then(data =>
@@ -81,9 +84,11 @@ const Search = (props) => {
 
   return(
     <>
-      <SongPlayer mp3={song.mp3}/>
+      <div style={{height: '200px', width: '100vw'}}>
+        <SongPlayer mp3={song.mp3}/>
+      </div>
 
-      <div>
+      <div style={{display:'flex', alignItems:'center'}}>
         {/* choose endpoint */}
         <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
           <InputLabel>Search for</InputLabel>
@@ -96,22 +101,24 @@ const Search = (props) => {
         </FormControl>
 
         {/* input endpoint param */}
-        <label>{searchFunctions[endpoint].input.label}: </label>
-        <input type='text'
+        <TextField type='text'
+          label={searchFunctions[endpoint].input.label}
           value={endpointParam}
           onChange={e => {
             let inputValue = e.target.value
             setEndpointParam(inputValue)
             searchFunctions[endpoint].input.value = inputValue
-          }}></input>
+          }}>
+          </TextField>
 
         {/* call api */}
-        <button onClick={searchSpotify}>{endpoint}</button>
+        <button style={{backgroundColor:'black', color:'white',padding:'20px',border:'0',borderRadius:'5px',fontSize:'1rem'}}
+          onClick={searchSpotify}>{endpoint}</button>
       </div>
 
       {loadingData ?
 
-        <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', width: '80%'}}>
+        <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', width: '100%'}}>
           <PlaylistSkeleton expanded={true}/>
           <PlaylistSkeleton expanded={false}/>
           <PlaylistSkeleton expanded={false}/>

@@ -12,6 +12,9 @@ import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
+import '../../styles/music.css'
+import doubleEighthNote from'../../styles/double-eighth-note.png'
+import quarterNote from'../../styles/quarter-note.png'
 
 // imported TabPanel definition from MUI, no need to worry about details
 const TabPanel = (props) => {
@@ -42,7 +45,7 @@ const Authentication = () => {
   };
 
   return (
-    <div>
+    <div style={{height: '80vh'}}>
     <CssBaseline />
       <AppBar
         position="static"
@@ -50,8 +53,7 @@ const Authentication = () => {
         elevation={0}
         sx={{
           display: 'flex',
-          alignItems: 'center',
-          borderBottom: (t) => `1px solid ${t.palette.divider}` }}
+          alignItems: 'center'}}
       >
         <Toolbar sx={{ display: 'flex', flexWrap: 'wrap', justifySelf: 'center' }}>
           <Typography variant="h6" color="inherit" noWrap>
@@ -59,30 +61,53 @@ const Authentication = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="xs">
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mt: 3,
-          boxShadow: 3
-        }}>
-          <Tabs value={value} onChange={handleChange}>
+      <Container style={{display: 'flex', flexDirection:'row', alignItems: 'center', justifyContent:'space-around', height: '100%'}}>
+        {/* animated quarterNote */}
+        <div style={{display:'flex', maxWidth: '300px', justifyContent: 'center'}}>
+          <div className="quarterNote">
+            <img src={quarterNote} width="50%"/>
+          </div>
+        </div>
+
+        <div>
+          {/* horizontal row of tabs */}
+          <Tabs value={value}
+            onChange={handleChange}
+            centered>
             <Tab label="Sign in" />
             <Tab label="Register" />
             <Tab label="Guest" />
           </Tabs>
-          <TabPanel value={value} index={0}>
-            <Login/>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Register/>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <GuestJoin/>
-          </TabPanel>
-        </Box>
+
+          {/* card with input fields */}
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: 3,
+            boxShadow: 3,
+            minWidth: '400px',
+            py: 4
+          }}>
+            <TabPanel value={value} index={0}>
+              <Login/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <Register/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <GuestJoin/>
+            </TabPanel>
+          </Box>
+        </div>
+
+        {/* animated doubleEighthNote */}
+        <div style={{display:'flex', maxWidth: '300px', justifyContent: 'center'}}>
+          <div className="doubleEighthNote">
+            <img src={doubleEighthNote} width="80%"/>
+          </div>
+        </div>
       </Container>
     </div>
   );

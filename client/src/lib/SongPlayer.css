@@ -1,33 +1,11 @@
 .songplayer-container { /* constant light-colored background behind both soundwave and sound progress bar */
+  position: relative;
+  display: block;
   flex-grow: 1;
   width: 100%;
-  height: 300px;
+  height: 100%;
   margin-bottom: 1.5em;
   background-color: hsl(173, 44%, 56%);
-}
-
-.progress-bar { /* moving darker-colored background behind soundwave in songplayer */
-  height: 100%;
-  z-index: 1;
-}
-
-.animate-width {
-  -webkit-transition: width 30s linear;
-  -o-transition: width 30s linear;
-  transition: width 30s linear;
-}
-
-.songplayer { /* contains soundwave and countdown text */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  background-color: transparent;
-  color: white;
-  z-index: 5;
-  width: 100vw;
-  height: 100%;
 }
 
 .timeLeft {
@@ -38,4 +16,34 @@
   right: 0;
   text-align: center;
   color: white;
+  z-index: 10;
+}
+
+.progress-bar { /* moving darker-colored background behind soundwave in songplayer */
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+
+.animate-width {
+  -webkit-transition: width 30s linear;
+  -o-transition: width 30s linear;
+  transition: width 30s linear;
+}
+
+.songplayer { /* contains soundwave and countdown text */
+  display: block;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: transparent;
+  color: white;
+  z-index: 5;
+  width: 100vw;
+  height: 100%;
 }

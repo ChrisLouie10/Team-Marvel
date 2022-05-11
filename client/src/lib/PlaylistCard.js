@@ -18,12 +18,16 @@ export default function PlaylistCard(props) {
 
   const createGame = () => {
     // request server to create game
-    socket.emit('createGame', {hostName: data.username, hostId: data.id, playlistId: props.id})
+    socket.emit('createGame', 
+      { hostName: data.username, 
+        hostId: data.id, 
+        playlistId: props.id
+      })
   }
 
   return (
     <Card sx={{ maxWidth: 345, mt: 4, mb: 4}}>
-      <CardActionArea sx={{bgcolor: 'MediumAquaMarine', color: 'white'}}
+      <CardActionArea sx={{bgcolor: '#5EC1B5', color: 'white'}}
         expand={expanded ? 1 : undefined}
         onClick={() => setExpanded(!expanded)} // toggles visibility of song list
         >
