@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, Typography, Divider, Box, Button, Dialog 
 
 export default function Scoreboard({players, isHost, handleNextQuestion,show, handleClose, gameOver}) {
     const [pressed, setPressed] = useState(false)
-    const [timeLeft, setTimeLeft] = useState(15)
+    const [timeLeft, setTimeLeft] = useState(8)
 
     useEffect(() => {
       let myInterval = setInterval(() => {

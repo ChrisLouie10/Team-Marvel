@@ -110,8 +110,8 @@ const Lobby = () => {
         minHeight: '60vh',
         mt: '5rem',
       }}>
-        <Typography variant="h2" sx={{ fontWeight: '900', mb: '1rem', }}>Playlist: {playlist.playlistName}</Typography>
-        <Typography variant="h5">Lobby: {state.gamePin}</Typography>
+        <Typography variant="h2" sx={{fontWeight: '900', mb: '1rem', textAlign: 'center'}}>Playlist: {playlist.playlistName}</Typography>
+        <Typography variant="h5" sx={{textAlign: 'center'}}>Lobby: {state.gamePin}</Typography>
         <Grid
           sx={{
             position: 'relative',
