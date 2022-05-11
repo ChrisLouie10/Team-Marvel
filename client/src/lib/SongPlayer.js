@@ -63,13 +63,8 @@ const SongPlayer = (props) => {
         volume: 0.1,
         })
       )
-<<<<<<< HEAD
     })();
   }, [props.mp3, props.gameOver])
-=======
-      setIsPlaying(true)
-  }, [props.mp3])
->>>>>>> milestone-4
 
   // play whenever a new song is set
   useEffect(() => {
