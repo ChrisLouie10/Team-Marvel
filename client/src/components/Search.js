@@ -84,9 +84,7 @@ const Search = (props) => {
 
   return(
     <>
-      {/* hide songplayer, because it's not showing up anyway due to a bug
-        it'll still play music, but it can't be seen */}
-      <div style={{visibility:'hidden'}}>
+      <div style={{height: '200px', width: '100vw'}}>
         <SongPlayer mp3={song.mp3}/>
       </div>
 

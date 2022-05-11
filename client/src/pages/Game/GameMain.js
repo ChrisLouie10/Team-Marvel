@@ -23,7 +23,6 @@ const GameMain = () => {
   const [topPlayers, setTopPlayers] = useState([]);
   const navigate = useNavigate();
   const [gameOver, setGameOver] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
 
   // when question changes, load in answers & song
   useEffect(() => {
@@ -47,6 +46,7 @@ const GameMain = () => {
       resetButtons()
       setGameStarted(true)
       setShowScoreboard(false)
+      setRoundOver(false)
       setMp3(data.song)
       setAnswers({
         answer1: data.answers[0],
@@ -65,6 +65,7 @@ const GameMain = () => {
     socket.on('endQuestion', (scores) => {
       setTopPlayers(scores);
       setShowScoreboard(true);
+      setRoundOver(true)
     })
 
     socket.on('endGame', () => {
