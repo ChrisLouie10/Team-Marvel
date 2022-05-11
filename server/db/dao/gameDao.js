@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Game = require('../models/GameModel');
+const Game = require('../models/gameModel');
 const { gameToObject } = require('../../lib/converters/gameConverter');
 
 function createGame(game) {
