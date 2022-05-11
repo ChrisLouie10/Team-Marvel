@@ -145,6 +145,7 @@ io.on('connection', (socket) => {
     if(game.currentQuestion > 4) {
       io.to(gamePin).emit('endGame', {message: "game over"})
       games.removeGame(gamePin)
+      await createGame(game)
       return
     }
     const nextSong = game.playlist[game.currentQuestion * 4].songUrl
