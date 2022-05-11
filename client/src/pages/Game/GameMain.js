@@ -24,6 +24,7 @@ const GameMain = () => {
   const [topPlayers, setTopPlayers] = useState([]);
   const navigate = useNavigate();
   const [gameOver, setGameOver] = useState(false);
+  const [roundOver, setRoundOver] = useState(false);
 
   // when question changes, load in answers & song
   useEffect(() => {
@@ -50,6 +51,7 @@ const GameMain = () => {
       resetButtons()
       setOpenModal(false)
       setShowScoreboard(false)
+      setRoundOver(false)
       setMp3(data.song)
       setAnswers({
         answer1: data.answers[0],
@@ -68,6 +70,7 @@ const GameMain = () => {
     socket.on('endQuestion', (scores) => {
       setTopPlayers(scores);
       setShowScoreboard(true);
+      setRoundOver(true)
     })
 
     socket.on('endGame', () => {
@@ -134,7 +137,7 @@ const GameMain = () => {
               {socket.id == state.hostSocketId ? <button onClick={(e) => handleEndQuestion(e)} className="button-next-question">End Question</button> : <></>}
             </div>
           </div>
-          {mp3 && <SongPlayer mp3={mp3} gameOver={gameOver}/>}
+          {mp3 && <SongPlayer mp3={mp3} roundOver={roundOver}/>}
           {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div>
                     : !mp3 && <div className="temp-songplayer">Waiting for other players</div>}
 
