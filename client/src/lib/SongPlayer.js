@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 
 import SiriWave from "siriwave";
 import { Howl, Howler } from 'howler';
@@ -27,10 +27,14 @@ const SongPlayer = (props) => {
     if (sound) sound.unload()
   }
 
+  useLayoutEffect(() => {
+    /* rendering will occur in between useLayoutEffect and useEffect
+      states will be reset and UI will display reset states before states change for new song */
+    stopPreviousSong() // prevent starting up new song until after previous song's states are reset
+  }, [props.mp3, props.gameOver])
+
   // create soundwave, set timer, set mp3
   useEffect(() => {
-    (async () => {
-      await stopPreviousSong() // prevent starting up new song until after previous song's states are reset
       if (props.gameOver) return
 
       // start new song
@@ -58,7 +62,6 @@ const SongPlayer = (props) => {
         })
       )
       setIsPlaying(true)
-    })();
   }, [props.mp3, props.gameOver])
 
   // play whenever a new song is set
