@@ -16,7 +16,6 @@ const GameMain = () => {
   const [answers, setAnswers] = useState({})
   const [correctAnswer, setCorrectAnswer] = useState()
   const [mp3, setMp3] = useState()
-  const [openModal, setOpenModal] = useState(false)
   const [timer, setTimer] = useState()
   const [showScoreboard, setShowScoreboard] = useState(false)
   const [canAnswer, setCanAnswer] = useState(false);
@@ -24,6 +23,7 @@ const GameMain = () => {
   const [topPlayers, setTopPlayers] = useState([]);
   const navigate = useNavigate();
   const [gameOver, setGameOver] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   // when question changes, load in answers & song
   useEffect(() => {
@@ -40,15 +40,12 @@ const GameMain = () => {
     })
 
     socket.on('countdown', (timer) => {
-      // open modal when timer comes in
-      setOpenModal(true)
-
       setTimer(timer)
     })
 
     socket.on('nextQuestion', (data) => {
       resetButtons()
-      setOpenModal(false)
+      setGameStarted(true)
       setShowScoreboard(false)
       setMp3(data.song)
       setAnswers({
@@ -74,7 +71,7 @@ const GameMain = () => {
       setGameOver(true)
       setTimeout(() => {
         navigate("/user/host", { replace: true });
-      }, 15000);
+      }, 8000);
     })
 
   }, []);
@@ -135,7 +132,7 @@ const GameMain = () => {
             </div>
           </div>
           {mp3 && <SongPlayer mp3={mp3} gameOver={gameOver}/>}
-          {openModal ? <div className="temp-songplayer"><GameModal timer={timer} /></div>
+          {!gameStarted ? <div className="temp-songplayer"><GameModal timer={timer} /></div>
                     : !mp3 && <div className="temp-songplayer">Waiting for other players</div>}
 
           <div data-buttons className="btn-container">

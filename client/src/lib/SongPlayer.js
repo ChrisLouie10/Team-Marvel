@@ -30,8 +30,8 @@ const SongPlayer = (props) => {
   // create soundwave, set timer, set mp3
   useEffect(() => {
     (async () => {
-      await stopPreviousSong() // prevent starting up new song until after previous song's states are reset
-      if (props.gameOver) return
+      await stopPreviousSong()            // prevent starting up new song until after previous song's states are reset
+      if (props.gameOver) return          // if game is over, exit function early
 
       // start new song
       setTimeLeft(30)
@@ -57,14 +57,14 @@ const SongPlayer = (props) => {
         volume: 0.1,
         })
       )
-      setIsPlaying(true)
     })();
   }, [props.mp3, props.gameOver])
 
   // play whenever a new song is set
   useEffect(() => {
     if (sound) sound.play()
-    Howler.volume(.05);
+    Howler.volume(.5)
+    setIsPlaying(true)
   }, [sound])
 
   // manage timer
@@ -86,9 +86,9 @@ const SongPlayer = (props) => {
     <div className="songplayer-container">
       <p className="timeLeft">{timeLeft}</p>
       {/* moving progress bar in background */}
-      <div className={`progress-bar${isPlaying ? ' animate-width' : ''}`}
-        style={{width: `${isPlaying ? '100%' : '0'}`,
-                backgroundColor: '#44ada2'}}>
+      <div data-progress-bar className={`progress-bar ${isPlaying ? 'animate-width' : ''}`}
+        style={{ width: `${isPlaying ? '100%' : '0'}`,
+                 backgroundColor: '#44ada2'}}>
         {/* soundwave and countdown text */}
         <div className="songplayer" ref={soundwaveContainer}></div>
       </div>
