@@ -2,6 +2,8 @@
 
 ### By Team Marvel
 
+[Open App](https://marvel-hearo.herokuapp.com/)
+
 ---
 
 How to get started:
@@ -9,18 +11,18 @@ How to get started:
 Once the repository is cloned and opened in a terminal,
 
 1. Install dependencies for both client and server
-   a. To install server dependencies from root folder, run `cd server`, then `npm run install`
-   b. To install client dependencies from root folder, run `cd client`, then `npm run install`
+   1. To install server dependencies from root folder, run `cd server`, then `npm run install`
+   2. To install client dependencies from root folder, run `cd client`, then `npm run install`
 2. [Install MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/), if needed.
 3. Run server to ensure everything is working.
-   a. From root folder, `cd server`, then `npm run dev`
+   1. From root folder, `cd server`, then `npm run dev`
 
 To Deploy the application:
 
 1. Heroku cli and Docker to be installed
 2. Build the React App and move it to the server folder
-   a. change directory to the client folder (`cd client`)
-   b. run `npm run build`
+   1. change directory to the client folder (`cd client`)
+   2. run `npm run build`
 3. Change directory to the server folder (`cd ../server`)  
 4. heroku login
 5. heroku container:login (requires you to login to docker)
